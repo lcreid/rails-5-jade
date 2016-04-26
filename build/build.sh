@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This should be treated as notes, rather than a single script.
-# There are a number of places where it's convenient to 
+# There are a number of places where it's convenient to
 
 sudo apt-get install openssh-server linux-headers-$(uname -r) build-essential dkms; \
 sudo apt-get update; sudo apt-get dist-upgrade
@@ -20,6 +20,10 @@ sudo apt-get install patch zlib1g-dev liblzma-dev
 # Install Node (from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
 curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 sudo apt-get install -y nodejs
+# Install Postgres
+apt-get install postgresql-9.5 postgresql-server-dev-9.5
+sudo gem install pg
+# Clean up
 sudo apt-get autoremove
 # Checkpoint the VM before installing Rails because it's still beta
 sudo gem install rails -v 5.0.0.beta3 --pre
