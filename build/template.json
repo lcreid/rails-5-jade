@@ -1,20 +1,22 @@
 {
-  "variables": {
-    "Name": "rails-5-jade"
-  },
   "builders": [{
     "type": "virtualbox-iso",
     "boot_command": [
       "<esc><esc><enter><wait>",
       "/install/vmlinuz noapic ",
-      "preseed/url=https://github.com/lcreid/rails-5-jade/raw/master/build/preseed.cfg ",
-      "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+      "auto=true priority=critical ",
+      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+      "debian-installer=en_US locale=en_US kbd-chooser/method=us ",
+      "hostname=rails-5-jade ",
       "fb=false debconf/frontend=noninteractive ",
       "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
       "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
-      "initrd=/install/initrd.gz -- <enter>"
+      "initrd=/install/initrd.gz -- <enter>",
+      "<wait><enter><enter>"
     ],
+    "boot_wait": "4s",
     "guest_os_type": "Ubuntu_64",
+    "http_directory": "http",
     "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04-server-amd64.iso",
     "iso_checksum": "23e97cd5d4145d4105fbf29878534049",
     "iso_checksum_type": "md5",
