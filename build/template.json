@@ -36,6 +36,39 @@
         "1"
       ]
     ]
+  },
+  {
+    "type": "qemu",
+    "boot_wait": "5s",
+    "http_directory": "http",
+    "iso_checksum": "23e97cd5d4145d4105fbf29878534049",
+    "iso_checksum_type": "md5",
+    "iso_url": "file:/usr/local/vmware/ISOs/ubuntu-16.04-server-amd64.iso",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "ssh_wait_timeout": "10000s",
+    "disk_size": "8000",
+    "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+    "format": "qcow2",
+    "headless": true,
+    "accelerator": "kvm",
+    "vm_name": "rails-5-jade",
+    "net_device": "virtio-net",
+    "disk_interface": "virtio",
+    "output_directory": "/usr/local/vmware/Virtual Machines/rails-5-jade",
+    "qemuargs": [
+      [ "-vnc", "0.0.0.0:0" ]
+    ],
+    "boot_command": [
+      "<esc><esc><enter><wait>",
+      "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
+      "debian-installer=en_US auto locale=en_US kbd-chooser/method=us <wait>",
+      "hostname={{ .Name }} <wait>",
+      "fb=false debconf/frontend=noninteractive <wait>",
+      "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA <wait>",
+      "keyboard-configuration/variant=USA console-setup/ask_detect=false <wait>",
+      "initrd=/install/initrd.gz -- <enter><wait>"
+    ]
   }],
   "provisioners": [{
     "type": "shell",
