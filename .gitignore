@@ -1,3 +1,6 @@
 .vagrant
 authorized_keys
 package.box
+packer_cache/
+jkl/
+ror/
