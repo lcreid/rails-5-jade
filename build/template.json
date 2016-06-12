@@ -3,15 +3,15 @@
     "type": "virtualbox-iso",
     "boot_command": [
       "<enter><f6><esc>",
-      "<left><left><left><left><left>",
-      "<left><left><left><left><left>",
-      "<left><left><left><left><left>",
-      "<left><left><left><left><left>",
-      "<left><left><left><left><left>",
-      "<left><left><left><left><left>",
-      "<left><left><left><left><left>",
-      "<left><left><left><left><left>",
-      "<left><left><left><left><left>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
       "<bs><bs><bs><bs><bs>",
       "<bs><bs><bs><bs><bs>",
       "<bs><bs><bs><bs><bs>",
@@ -26,7 +26,8 @@
       "fb=false debconf/frontend=noninteractive ",
       "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
       "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
-      "<end><enter>"
+      "vga=788 initrd=/install/initrd.gz quiet --- ",
+      "<enter>"
     ],
     "boot_wait": "4s",
     "guest_os_type": "Ubuntu_64",
@@ -38,7 +39,7 @@
     "ssh_password": "vagrant",
     "ssh_wait_timeout": "10000s",
     "disk_size": "8000",
-    "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+    "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
     "vboxmanage": [
       [
         "modifyvm",
@@ -72,5 +73,6 @@
       "sudo apt-get autoremove",
       "sudo gem install rails -v 5.0.0.rc1 --pre"
     ]
-  }]
+  }],
+  "post-processors": ["vagrant"]
 }
