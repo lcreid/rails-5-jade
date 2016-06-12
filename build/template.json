@@ -59,11 +59,11 @@
     "type": "shell",
     "inline": [
       "sleep 30",
-      "mkdir ~/.ssh",
-      "cd ~/.ssh",
-      "wget --no-check-certificate 'https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub' -O authorized_keys",
-      "chmod 600 ~/.ssh/authorized_keys",
-      "chown -R vagrant:vagrant ~/.ssh",
+      "sudo mkdir ~vagrant/.ssh",
+      "sudo chmod 700 ~vagrant/.ssh",
+      "sudo wget --no-check-certificate 'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub' -O ~vagrant/.ssh/authorized_keys",
+      "sudo chmod 600 ~vagrant/.ssh/authorized_keys",
+      "sudo chown -R vagrant:vagrant ~vagrant/.ssh",
       "sudo apt-get update -y -qq",
       "sudo apt-get install -y -q linux-headers-$(uname -r) build-essential dkms",
       "sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev",
@@ -79,5 +79,11 @@
       "sudo gem install rails -v 5.0.0.rc1 --pre"
     ]
   }],
-  "post-processors": ["vagrant"]
+  "post-processors": [
+    {
+        "type": "vagrant",
+        "only": ["virtualbox-iso"],
+        "output": "package.box"
+    }
+  ]
 }

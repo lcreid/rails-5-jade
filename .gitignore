@@ -1,7 +1,7 @@
 .vagrant
 authorized_keys
 package.box
-Vagrantfile
+build/Vagrantfile
 packer_cache/
 output-virtualbox-iso/
 packer_virtualbox-iso_virtualbox.box
