@@ -59,7 +59,12 @@
     "type": "shell",
     "inline": [
       "sleep 30",
-      "sudo apt-get update",
+      "mkdir ~/.ssh",
+      "cd ~/.ssh",
+      "wget --no-check-certificate 'https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub' -O authorized_keys",
+      "chmod 600 ~/.ssh/authorized_keys",
+      "chown -R vagrant:vagrant ~/.ssh",
+      "sudo apt-get update -y -qq",
       "sudo apt-get install -y -q linux-headers-$(uname -r) build-essential dkms",
       "sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev",
       "sudo gem install jekyll",
@@ -69,8 +74,8 @@
       "sudo apt-get install -y -q postgresql-9.5 postgresql-server-dev-9.5",
       "sudo gem install pg",
       "sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb",
-      "sudo apt-get dist-upgrade",
-      "sudo apt-get autoremove",
+      "sudo apt-get dist-upgrade -y -qq",
+      "sudo apt-get autoremove -y -qq",
       "sudo gem install rails -v 5.0.0.rc1 --pre"
     ]
   }],

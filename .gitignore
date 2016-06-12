@@ -1,6 +1,9 @@
 .vagrant
 authorized_keys
 package.box
+Vagrantfile
 packer_cache/
+output-virtualbox-iso/
+packer_virtualbox-iso_virtualbox.box
 jkl/
 ror/
