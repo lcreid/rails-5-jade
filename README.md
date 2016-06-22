@@ -16,7 +16,7 @@ Note the last line,
 which will avoid putting a bunch of Vagrant's control information
 into your repository.
 It's unnecessary,
-and may cause others to have problems when starting their Vabrant machine.
+and may cause others to have problems when starting their Vagrant machine.
 
 # Starting Rails Server
 On the vagrant box:
@@ -43,7 +43,7 @@ Note the last line,
 which will avoid putting a bunch of Vagrant's control information
 into your repository.
 It's unnecessary,
-and may cause others to have problems when starting their Vabrant machine.
+and may cause others to have problems when starting their Vagrant machine.
 
 # Starting the Jekyll Server
 On the vagrant box:
