@@ -10,7 +10,13 @@ vagrant up
 vagrant ssh
 cd /vagrant
 rails new .
+echo ".vagrant" >>.gitignore
 ```
+Note the last line,
+which will avoid putting a bunch of Vagrant's control information
+into your repository.
+It's unnecessary,
+and may cause others to have problems when starting their Vabrant machine.
 
 # Starting Rails Server
 On the vagrant box:
@@ -31,7 +37,13 @@ vagrant up
 vagrant ssh
 cd /vagrant
 jekyll new .
+echo ".vagrant" >>.gitignore
 ```
+Note the last line,
+which will avoid putting a bunch of Vagrant's control information
+into your repository.
+It's unnecessary,
+and may cause others to have problems when starting their Vabrant machine.
 
 # Starting the Jekyll Server
 On the vagrant box:
