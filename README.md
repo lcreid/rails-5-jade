@@ -18,6 +18,19 @@ into your repository.
 It's unnecessary,
 and may cause others to have problems when starting their Vagrant machine.
 
+You also have to comment out one line
+and put another near the end of `config/environments/development.rb`
+for each Rails project you create in the Vagrant machine:
+```
+# config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+config.file_watcher = ActiveSupport::FileUpdateChecker
+```
+If you don't make that change,
+and restart the server if you've already started it,
+then the Rails server won't see any changes
+you make
+to your files.
+
 # Starting Rails Server
 On the vagrant box:
 ```
