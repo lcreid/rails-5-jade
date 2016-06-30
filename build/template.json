@@ -22,7 +22,7 @@
       "<bs><bs><bs>",
       "auto preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
       "debian-installer=en_CA locale=en_CA kbd-chooser/method=us ",
-      "hostname=rails-5-jade ",
+      "hostname=rails-5 ",
       "fb=false debconf/frontend=noninteractive ",
       "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
       "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
@@ -77,14 +77,15 @@
       "sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb",
       "sudo apt-get dist-upgrade -y -qq",
       "sudo apt-get autoremove -y -qq",
-      "sudo gem install rails -v 5.0.0.rc1 --pre"
+      "sudo gem install rails -v 5.0.0.rc2 --pre"
     ]
   }],
   "post-processors": [
     {
         "type": "vagrant",
         "only": ["virtualbox-iso"],
-        "output": "package.box"
+        "output": "rails5.box",
+        "vagrantfile_template": "../Vagrantfile"
     }
   ]
 }

@@ -28,4 +28,4 @@ sudo apt-get install libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tool
 sudo apt-get update; sudo apt-get dist-upgrade
 sudo apt-get autoremove
 # Checkpoint the VM before installing Rails because it's still beta
-sudo gem install rails -v 5.0.0.beta4 --pre
+sudo gem install rails -v 5.0.0.rc2 --pre

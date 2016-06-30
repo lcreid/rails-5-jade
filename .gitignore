@@ -4,6 +4,8 @@ package.box
 build/Vagrantfile
 packer_cache/
 output-virtualbox-iso/
-packer_virtualbox-iso_virtualbox.box
+*.box
 jkl/
 ror/
+build/nutch/
+build/solr/
