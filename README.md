@@ -5,7 +5,6 @@ A Vagrant base box with Rails 5 with Jekyll and Node on Ubuntu 16.04.
 ```
 mkdir new-project
 cd new-project
-curl -O -L https://github.com/lcreid/rails-5-jade/raw/master/Vagrantfile
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -45,7 +44,6 @@ with anything else you do in that terminal.
 ```
 mkdir new-project
 cd new-project
-curl -O -L https://github.com/lcreid/rails-5-jade/raw/master/Vagrantfile
 vagrant up
 vagrant ssh
 cd /vagrant
