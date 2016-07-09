@@ -99,6 +99,7 @@ However, upgrading _doesn't_ touch anything in the machine's `/vagrant` director
 (the directory shared with your workstation).
 Your Rails, Jekyll, and other projects are remain.
 
+## Get the Updated Box
 First, check to see whether there's a new version of the box available:
 ```
 vagrant box outdated
@@ -111,6 +112,7 @@ so it's safe to do at any time:
 ```
 vagrant box update
 ```
+## Update Your Local Machines
 Once you've updated the local cache,
 you can update a specific machine.
 This does affect the machine,
@@ -136,3 +138,27 @@ You need to install GraphViz (http://graphviz.org/) to use this Gem.
 This is nothing to worry about.
 The message is printed whether or not the package is installed.
 GraphViz is installed on this box.
+
+# Troubleshooting
+Versions of this box before v0.3.0
+have a lot of rough edges,
+including Vagrantfiles that aren't really correct.
+If you're having problems,
+and you haven't modified your local Vagrantfile
+or the machine itself,
+it would be worthwhile to try getting a new Vagrantfile
+and an up-to-date version of the box:
+```
+vagrant halt
+vagrant destroy
+rm Vagrantfile
+vagrant init jadesystems/rails5
+vagrant up
+vagrant ssh
+cd /vagrant
+bundle install
+```
+Also,
+the [Vagrant documentation](https://www.vagrantup.com/docs/)
+will be very helpful if you're trying to figure out a problem.
+
