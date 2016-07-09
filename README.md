@@ -97,7 +97,7 @@ to the machine,
 e.g. installing additional packages.
 However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory
 (the directory shared with your workstation).
-Your Rails, Jekyll, and other projects aren't touched.
+Your Rails, Jekyll, and other projects are remain.
 
 In the directory from which you run the Vagrant machine:
 ```
@@ -110,6 +110,10 @@ vagrant ssh
 cd /vagrant
 bundle install
 ```
+The final `bundle install` is required
+because the gems are stored in your home directory,
+which is lost as part of update.
+
 Note that you may see a message telling you:
 ```
 You need to install GraphViz (http://graphviz.org/) to use this Gem.
