@@ -95,6 +95,9 @@ from time to time.
 Note: Upgrading the box destroys any changes you've made
 to the machine,
 e.g. installing additional packages.
+However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory
+(the directory shared with your workstation).
+Your Rails, Jekyll, and other projects aren't touched.
 
 In the directory from which you run the Vagrant machine:
 ```
