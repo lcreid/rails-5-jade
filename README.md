@@ -84,3 +84,34 @@ jekyll serve --host 0.0.0.0 --force_polling
 You can append `&` to the line to run in the background.
 The output from the `jekyll serve` will appear mixed in
 with anything else you do in that terminal.
+
+# Upgrading a Box
+This box is still relatively new,
+and we're adding features all the time.
+Also, Rails versions change.
+You may want to upgrade the machine on your workstation
+from time to time.
+
+Note: Upgrading the box destroys any changes you've made
+to the machine,
+e.g. installing additional packages.
+
+In the directory from which you run the Vagrant machine:
+```
+vagrant halt
+vagrant destroy
+rm Vagrantfile
+vagrant init jadesystems/rails5
+vagrant up
+vagrant ssh
+cd /vagrant
+bundle install
+```
+Note that you may see a message telling you:
+```
+You need to install GraphViz (http://graphviz.org/) to use this Gem.
+```
+This is nothing to worry about.
+The message is printed whether or not the package is installed.
+GraphViz is installed on this box.
+The 
