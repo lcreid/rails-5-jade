@@ -99,12 +99,27 @@ However, upgrading _doesn't_ touch anything in the machine's `/vagrant` director
 (the directory shared with your workstation).
 Your Rails, Jekyll, and other projects are remain.
 
+First, check to see whether there's a new version of the box available:
+```
+vagrant box outdated
+```
+If there is,
+you must first download the updated version.
+This doesn't affect any of your running boxes
+(it's just updating a local hidden cache of boxes),
+so it's safe to do at any time:
+```
+vagrant box update
+```
+Once you've updated the local cache,
+you can update a specific machine.
+This does affect the machine,
+obviously.
+You have to stop it, destroy it, and then start it again.
 In the directory from which you run the Vagrant machine:
 ```
 vagrant halt
 vagrant destroy
-rm Vagrantfile
-vagrant init jadesystems/rails5
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -112,13 +127,12 @@ bundle install
 ```
 The final `bundle install` is required
 because the gems are stored in your home directory,
-which is lost as part of update.
+which is lost as part of the update.
 
-Note that you may see a message telling you:
+Note that you may see a message from the `bundle install` telling you:
 ```
 You need to install GraphViz (http://graphviz.org/) to use this Gem.
 ```
 This is nothing to worry about.
 The message is printed whether or not the package is installed.
 GraphViz is installed on this box.
-The 
