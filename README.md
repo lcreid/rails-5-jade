@@ -22,6 +22,7 @@ if you want to use Postgres.
 ```
 mkdir new-project
 cd new-project
+vagrant init jadesystems/rails5
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -61,6 +62,7 @@ with anything else you do in that terminal.
 ```
 mkdir new-project
 cd new-project
+vagrant init jadesystems/rails5
 vagrant up
 vagrant ssh
 cd /vagrant
