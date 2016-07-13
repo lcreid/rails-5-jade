@@ -22,8 +22,9 @@ sudo apt-get install -y -q -y nodejs
 # Install Postgres
 sudo apt-get install -y -q postgresql-9.5 postgresql-server-dev-9.5
 sudo gem install pg
-# Need the following if you're going to build webkit for Capybara
-sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb
+# Need phantomjs for poltergeist
+sudo apt-get install -y -q phantomjs
+sudo gem install poltergeist
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
 # Clean up
