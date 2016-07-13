@@ -58,6 +58,54 @@ You can append `&` to the line to run in the background.
 The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
 
+# Using Postgres with Rails
+There are a couple of commands you have to run in the Vagrant machine
+before you can use Postgres as your database in Rails.
+You also have to change your `database.yml` file.
+
+The commands should be run in the top level directory of the Rails project.
+This example assumes you've put the Rails project in `/vagrant`.
+```
+cd /vagrant
+sudo -u postgres psql -c "create role pg with createdb login password 'pg';"
+sudo -u postgres psql -c 'create database "db/development.pg" owner "pg";'
+sudo -u postgres psql -c 'create database "db/test.pg" owner "pg";'
+```
+Change the `config/database.yml` file to look like this:
+```
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  username: pg
+  password: pg
+
+development:
+  <<: *default
+  database: db/development.pg
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: db/test.pg
+
+production:
+  <<: *default
+  database: db/production.pg
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+```
+You can, of course,
+change the owner or the password in the "create database" commands,
+but you have to make sure you change it in all the appropriate places
+in the commands above,
+and in `config/database.yml`.
+Note also that you'll have to set up the production database
+to be appropriate for your production platform.
+The above is merely a template.
 # Create a New Jekyll Site with this Base Box
 ```
 mkdir new-project
@@ -95,8 +143,59 @@ from time to time.
 Note: Upgrading the box destroys any changes you've made
 to the machine,
 e.g. installing additional packages.
+However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory
+(the directory shared with your workstation).
+Your Rails, Jekyll, and other projects are remain.
 
+## Get the Updated Box
+First, check to see whether there's a new version of the box available:
+```
+vagrant box outdated
+```
+If there is,
+you must first download the updated version.
+This doesn't affect any of your running boxes
+(it's just updating a local hidden cache of boxes),
+so it's safe to do at any time:
+```
+vagrant box update
+```
+## Update Your Local Machines
+Once you've updated the local cache,
+you can update a specific machine.
+This does affect the machine,
+obviously.
+You have to stop it, destroy it, and then start it again.
 In the directory from which you run the Vagrant machine:
+```
+vagrant halt
+vagrant destroy
+vagrant up
+vagrant ssh
+cd /vagrant
+bundle install
+```
+The final `bundle install` is required
+because the gems are stored in your home directory,
+which is lost as part of the update.
+
+Note that you may see a message from the `bundle install` telling you:
+```
+You need to install GraphViz (http://graphviz.org/) to use this Gem.
+```
+This is nothing to worry about.
+The message is printed whether or not the package is installed.
+GraphViz is installed on this box.
+
+# Troubleshooting
+Versions of this box before v0.3.0
+have a lot of rough edges,
+including Vagrantfiles that aren't really correct.
+If you're having problems,
+and you haven't modified your local Vagrantfile
+or the machine itself,
+it would be worthwhile to try getting a new Vagrantfile
+and an up-to-date version of the box:
 ```
 vagrant halt
 vagrant destroy
@@ -107,11 +206,7 @@ vagrant ssh
 cd /vagrant
 bundle install
 ```
-Note that you may see a message telling you:
-```
-You need to install GraphViz (http://graphviz.org/) to use this Gem.
-```
-This is nothing to worry about.
-The message is printed whether or not the package is installed.
-GraphViz is installed on this box.
-The 
+Also,
+the [Vagrant documentation](https://www.vagrantup.com/docs/)
+will be very helpful if you're trying to figure out a problem.
+
