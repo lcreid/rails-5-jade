@@ -58,6 +58,54 @@ You can append `&` to the line to run in the background.
 The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
 
+# Using Postgres with Rails
+There are a couple of commands you have to run in the Vagrant machine
+before you can use Postgres as your database in Rails.
+You also have to change your `database.yml` file.
+
+The commands should be run in the top level directory of the Rails project.
+This example assumes you've put the Rails project in `/vagrant`.
+```
+cd /vagrant
+sudo -u postgres psql -c "create role pg with createdb login password 'pg';"
+sudo -u postgres psql -c 'create database "db/development.pg" owner "pg";'
+sudo -u postgres psql -c 'create database "db/test.pg" owner "pg";'
+```
+Change the `config/database.yml` file to look like this:
+```
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  username: pg
+  password: pg
+
+development:
+  <<: *default
+  database: db/development.pg
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: db/test.pg
+
+production:
+  <<: *default
+  database: db/production.pg
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+```
+You can, of course,
+change the owner or the password in the "create database" commands,
+but you have to make sure you change it in all the appropriate places
+in the commands above,
+and in `config/database.yml`.
+Note also that you'll have to set up the production database
+to be appropriate for your production platform.
+The above is merely a template.
 # Create a New Jekyll Site with this Base Box
 ```
 mkdir new-project
