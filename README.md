@@ -66,8 +66,13 @@ You also have to change your `database.yml` file.
 The commands should be run in the top level directory of the Rails project.
 This example assumes you've put the Rails project in `/vagrant`.
 ```
-sudo -u postgres psql -c "create role pg with createdb login password 'pg';"
+sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
 ```
+(Unfortunately,
+the database user has to have Postgres superuser privileges,
+because Rails disables integrity constraints while loading fixtures,
+and only the Postgres superuser can disable integrity constraints.)
+
 Change the `config/database.yml` file to look like this:
 ```
 default: &default
