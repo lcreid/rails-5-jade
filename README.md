@@ -80,18 +80,18 @@ default: &default
 
 development:
   <<: *default
-  database: db/development.pg
+  database: development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.pg
+  database: test
 
 # production:
 #   <<: *default
-#   database: db/production.pg
+#   database: production
 #   username: <%= ENV['DATABASE_USERNAME'] %>
 #   password: <%= ENV['DATABASE_PASSWORD'] %>
 ```
@@ -107,6 +107,12 @@ and in `config/database.yml`.
 Note also that you'll have to set up the production database
 to be appropriate for your production platform.
 The above is merely a template.
+
+To log in to the development database using `psql`:
+```
+psql -U pg -h localhost -d development
+```
+Simply replace `development` with `test` for the test database.
 # Create a New Jekyll Site with this Base Box
 ```
 mkdir new-project
