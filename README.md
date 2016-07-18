@@ -66,10 +66,7 @@ You also have to change your `database.yml` file.
 The commands should be run in the top level directory of the Rails project.
 This example assumes you've put the Rails project in `/vagrant`.
 ```
-cd /vagrant
 sudo -u postgres psql -c "create role pg with createdb login password 'pg';"
-sudo -u postgres psql -c 'create database "db/development.pg" owner "pg";'
-sudo -u postgres psql -c 'create database "db/test.pg" owner "pg";'
 ```
 Change the `config/database.yml` file to look like this:
 ```
@@ -92,11 +89,15 @@ test:
   <<: *default
   database: db/test.pg
 
-production:
-  <<: *default
-  database: db/production.pg
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+# production:
+#   <<: *default
+#   database: db/production.pg
+#   username: <%= ENV['DATABASE_USERNAME'] %>
+#   password: <%= ENV['DATABASE_PASSWORD'] %>
+```
+Then run:
+```
+rails db:create:all
 ```
 You can, of course,
 change the owner or the password in the "create database" commands,
