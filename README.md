@@ -59,12 +59,11 @@ The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
 
 # Using Postgres with Rails
-There are a couple of commands you have to run in the Vagrant machine
+You have to create a Postgres user
 before you can use Postgres as your database in Rails.
 You also have to change your `database.yml` file.
 
-The commands should be run in the top level directory of the Rails project.
-This example assumes you've put the Rails project in `/vagrant`.
+To create a user "pg" with password "pg", run this command in the Vagrant machine:
 ```
 sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
 ```
@@ -72,6 +71,10 @@ sudo -u postgres psql -c "create role pg with superuser createdb login password 
 the database user has to have Postgres superuser privileges,
 because Rails disables integrity constraints while loading fixtures,
 and only the Postgres superuser can disable integrity constraints.)
+
+(Obviously you would only use such obvious user names and passwords
+for a local development or test database.
+Use a better password for production systems.)
 
 Change the `config/database.yml` file to look like this:
 ```
@@ -105,10 +108,9 @@ Then run:
 rails db:create:all
 ```
 You can, of course,
-change the owner or the password in the "create database" commands,
-but you have to make sure you change it in all the appropriate places
-in the commands above,
-and in `config/database.yml`.
+change the owner or the password in the "create role" command,
+but you have to make sure you change them in all the appropriate places
+in `config/database.yml`.
 Note also that you'll have to set up the production database
 to be appropriate for your production platform.
 The above is merely a template.
