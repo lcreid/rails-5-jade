@@ -26,6 +26,8 @@ sudo gem install pg
 sudo apt-get install -y -q sendmail
 # Need the following if you're going to build webkit for Capybara
 sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb
+# Issue #13 Install phantomjs to support Poltergeist, instead of Webkit
+sudo apt-get install -y -q phantomjs
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
 # Clean up
