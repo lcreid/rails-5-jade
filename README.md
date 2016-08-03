@@ -106,6 +106,8 @@ test:
 Then run:
 ```
 rails db:create:all
+rails db:migrate
+rails db:migrate RAILS_ENV=test
 ```
 You can, of course,
 change the owner or the password in the "create role" command,
@@ -200,6 +202,20 @@ You need to install GraphViz (http://graphviz.org/) to use this Gem.
 This is nothing to worry about.
 The message is printed whether or not the package is installed.
 GraphViz is installed on this box.
+
+## Postgres After Update
+The Postgres database is on the base box file systems only,
+so you have to recreate the Postgres database
+after upgrading the box.
+
+Run:
+```
+sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
+cd /vagrant
+rails db:create:all
+rails db:migrate
+rails db:migrate RAILS_ENV=test
+```
 
 # Troubleshooting
 Versions of this box before v0.3.0
