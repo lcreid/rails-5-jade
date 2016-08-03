@@ -204,7 +204,7 @@ The message is printed whether or not the package is installed.
 GraphViz is installed on this box.
 
 ## Postgres After Update
-The Postgres database is on the base box file systems only,
+The Postgres database is on the base box file system only,
 so you have to recreate the Postgres database
 after upgrading the box.
 
