@@ -6,7 +6,7 @@ This base box currently includes:
 * Rails 5
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
-* Webkit, so we can use Capybara for testing
+* PhantomJS, so we can use Capybara with Poltergeist for integration/acceptance testing
 * Graphviz, so we can use Rails ERD to generate documentation
 
 Note that this base box just installs the components in the operating system.
