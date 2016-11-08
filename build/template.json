@@ -52,6 +52,13 @@
         "{{.Name}}",
         "--cpus",
         "1"
+      ],
+      [
+        "guestproperty",
+        "set",
+        "{{.Name}}",
+        "--timesync-set-on-restore",
+        "1"
       ]
     ]
   }],
