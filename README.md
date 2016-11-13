@@ -228,7 +228,7 @@ This may happen after suspending and resuming the Vagrant box,
 for example,
 if your host is a laptop and it goes to sleep.
 
-You can for the time to sync by entering this in the Vagrant box:
+You can set the time to sync by entering this in the Vagrant box:
 ```
 sudo VBoxService --timesync-set-start
 ```
