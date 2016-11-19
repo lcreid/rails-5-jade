@@ -218,6 +218,31 @@ rails db:migrate RAILS_ENV=test
 ```
 
 # Troubleshooting
+## Time
+Time synchronization on the Vagrant box seems to fail sometimes.
+This can lead to Rails not recognizing changes to files,
+so you'll fix something,
+but Rails won't reload the changed file,
+and you'll think your change didn't do anything.
+This may happen after suspending and resuming the Vagrant box,
+for example,
+if your host is a laptop and it goes to sleep.
+
+You can set the time to sync by entering this in the Vagrant box:
+```
+sudo VBoxService --timesync-set-start
+```
+I tried a more permanent solution, but I haven't used it long enough to know if it works.
+First, get the name of the Vagrant box by entering this on the host:
+```
+VBoxManage list vms
+```
+Then enter this on the host:
+```
+VBoxManage guestproperty set guest_machine_name --timesync-set-on-restore 1
+```
+
+## Old Versions
 Versions of this box before v0.3.0
 have a lot of rough edges,
 including Vagrantfiles that aren't really correct.
