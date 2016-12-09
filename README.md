@@ -212,9 +212,7 @@ Run:
 ```
 sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
 cd /vagrant
-rails db:create:all
-rails db:migrate
-rails db:migrate RAILS_ENV=test
+rails db:setup
 ```
 
 # Troubleshooting
@@ -240,6 +238,23 @@ VBoxManage list vms
 Then enter this on the host:
 ```
 VBoxManage guestproperty set guest_machine_name --timesync-set-on-restore 1
+```
+
+## pg User, Fixtures, and Foreign Key Constraints
+When you upgrade the box, you lose the Postgres database.
+If you forget to create the user as described in
+[Postgres After Update](Postgres_After_Update),
+then you will get a lot of error messages like:
+```
+ActiveRecord::InvalidForeignKey: PG::ForeignKeyViolation: ERROR:  insert or update on table "cf0925s" violates foreign key constraint "fk_rails_707cb1bbd1"
+```
+
+The solution is to first drop the `pg` user, because Rails creates one for you, but with the wrong permissions.
+Then, recreate the user and database:
+```
+rails db:drop
+sudo -u postgres psql -c "drop role pg;"
+sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
 ```
 
 ## Old Versions
