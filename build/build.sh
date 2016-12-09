@@ -22,7 +22,7 @@ sudo apt-get install -y -q -y nodejs
 # Install Postgres
 sudo apt-get install -y -q postgresql-9.5 postgresql-server-dev-9.5
 sudo gem install pg
-sudo -u postgres psql -c "create role pg with createdb login password 'pg';"
+sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
 # Sendmail
 sudo apt-get install -y -q sendmail
 # Need the following if you're going to build webkit for Capybara
@@ -40,4 +40,4 @@ sudo apt-get -y -q install graphviz
 sudo apt-get dist-upgrade -y -qq
 sudo apt-get autoremove -y -qq
 
-sudo gem install rails -v 5.0.0
+sudo gem install rails -v 5.0.0.1
