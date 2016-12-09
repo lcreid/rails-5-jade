@@ -136,8 +136,8 @@ echo ".vagrant" >>.gitignore
 Note the last line,
 which will avoid putting a bunch of Vagrant's control information
 into your repository.
-It's unnecessary,
-and may cause others to have problems when starting their Vagrant machine.
+It's unnecessary to put Vagrant's control information into the repository,
+and may cause others to have problems when starting the Vagrant machine on their workstation.
 
 # Starting the Jekyll Server
 On the vagrant box:
