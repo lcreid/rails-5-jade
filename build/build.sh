@@ -32,7 +32,7 @@ sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.
 wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
 tar -xjf phantomjs-2.1.1-linux-x86_64.tar.bz2
 sudo cp -a phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
-chown root:root /usr/bin/phantomjs
+sudo chown root:root /usr/bin/phantomjs
 sudo gem install poltergeist
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
@@ -40,4 +40,4 @@ sudo apt-get -y -q install graphviz
 sudo apt-get dist-upgrade -y -qq
 sudo apt-get autoremove -y -qq
 
-sudo gem install rails -v 5.0.0.1
+sudo gem install rails -v 5.0.1
