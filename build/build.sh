@@ -13,15 +13,15 @@ sudo apt-get install -y -q virtualbox-guest-utils virtualbox-guest-dkms
 sudo apt-get install -y -q linux-headers-$(uname -r) build-essential dkms
 sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev
 
-sudo gem install jekyll
+sudo gem install jekyll --no-document
 # Nokogiri build dependencies (from http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian)
 sudo apt-get install -y -q patch zlib1g-dev liblzma-dev
 # Install Node (from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
-curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo apt-get install -y -q -y nodejs
 # Install Postgres
 sudo apt-get install -y -q postgresql-9.5 postgresql-server-dev-9.5
-sudo gem install pg
+sudo gem install pg --no-document
 sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
 # Sendmail
 sudo apt-get install -y -q sendmail
@@ -33,11 +33,14 @@ wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_6
 tar -xjf phantomjs-2.1.1-linux-x86_64.tar.bz2
 sudo cp -a phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
 sudo chown root:root /usr/bin/phantomjs
-sudo gem install poltergeist
+sudo gem install poltergeist --no-document
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
 # Clean up
+sudo apt-get update -y -qq
+# You have to do both types of upgrade explicitly.
+sudo apt-get upgrade -y -qq
 sudo apt-get dist-upgrade -y -qq
 sudo apt-get autoremove -y -qq
 
-sudo gem install rails -v 5.0.1
+sudo gem install rails -v 5.0.1 --no-document
