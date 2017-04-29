@@ -70,7 +70,7 @@
     {
         "type": "vagrant",
         "only": ["virtualbox-iso"],
-        "output": "rails5.box",
+        "output": "rails5-1.box",
         "vagrantfile_template": "../Vagrantfile"
     }
   ]

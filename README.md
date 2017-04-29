@@ -22,7 +22,7 @@ if you want to use Postgres.
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails5
+vagrant init jadesystems/rails-5-1
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -126,7 +126,7 @@ Simply replace `development` with `test` for the test database.
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails5
+vagrant init jadesystems/rails-5-1
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -271,7 +271,7 @@ and an up-to-date version of the box:
 vagrant halt
 vagrant destroy
 rm Vagrantfile
-vagrant init jadesystems/rails5
+vagrant init jadesystems/rails-5-1
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -280,4 +280,3 @@ bundle install
 Also,
 the [Vagrant documentation](https://www.vagrantup.com/docs/)
 will be very helpful if you're trying to figure out a problem.
-

@@ -43,4 +43,4 @@ sudo apt-get upgrade -y -qq
 sudo apt-get dist-upgrade -y -qq
 sudo apt-get autoremove -y -qq
 
-sudo gem install rails -v 5.0.1 --no-document
+sudo gem install rails -v 5.1.0 --no-document
