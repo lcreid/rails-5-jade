@@ -1,3 +1,11 @@
+## V2.0.0
+
+*   Add `rbenv`.
+
+    Issue #20.
+
+    *Larry Reid*
+
 ## V1.0.0
 
 *   Rails 5.1

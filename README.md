@@ -3,11 +3,14 @@ A Vagrant base box with Rails 5 with Jekyll and Node on Ubuntu 16.04.
 
 This base box currently includes:
 
-* Rails 5
+* Rails 5.1
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
 * PhantomJS, so we can use Capybara with Poltergeist for integration/acceptance testing
 * Graphviz, so we can use Rails ERD to generate documentation
+* Node, for Node development, and for the Rails asset pipeline
+* `rbenv`, although you don't have to use either `rvm` or `rbenv`
+when using this box
 
 Note that this base box just installs the components in the operating system.
 You're free to use as many or as few as you want.
@@ -158,10 +161,11 @@ from time to time.
 
 Note: Upgrading the box destroys any changes you've made
 to the machine,
-e.g. installing additional packages.
+e.g. installing additional packages,
+and Postgres databases.
 However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory
 (the directory shared with your workstation).
-Your Rails, Jekyll, and other projects are remain.
+Your Rails, Jekyll, and other projects are not touched.
 
 ## Get the Updated Box
 First, check to see whether there's a new version of the box available:
@@ -214,6 +218,57 @@ cd /vagrant
 rails db:setup
 ```
 
+# Running Legacy Rails Applications
+Here are some notes if you want to run older Rails applications
+in this box.
+
+## rbenv
+You should use the built-in `rbenv`,
+or un-install it and install `rvm`.
+Both are good tools for managing multiple versions of Ruby
+on the same computer.
+
+The rest of this documentation describes specific `rbenv` commands
+you will need to execute.
+Refer to the [`rbenv` documentation](https://github.com/rbenv/rbenv)
+for complete information about how to use `rbenv`.
+
+### Install the Right Ruby Version
+If you haven't used `rbenv` with your Rails application,
+you need to figure out which version of Ruby your application runs on.
+Once you've done that, run the following
+in the top-level directory of your Rails application:
+```
+rbenv local x.y.z
+```
+where *`x.y.z`* is the Ruby version you want to use.
+
+If your Rails application already has a `.ruby-version` file,
+or you just created one as described above,
+run:
+```
+rbenv install
+gem install bundler
+rbenv rehash
+```
+
+It appears to be very important that you install Bundler manually
+before you install your application's gems.
+
+Reminder: As with any new development instance,
+you need to fund Bundler before testing or running the application:
+```
+bundle install
+```
+
+## MySQL
+If your legacy application uses MySQL,
+you have to install the MySQL development library
+before you install or bundle the gems:
+```
+sudo apt-get install libmysqlclient-dev
+```
+
 # Troubleshooting
 ## Time
 Time synchronization on the Vagrant box seems to fail sometimes.
@@ -258,7 +313,7 @@ rails db:setup
 Earlier versions of this box didn't create the `pg` user correctly.
 You shouldn't run into this problem with boxes after v0.5.0.
 
-## Old Versions
+## Old Versions of these Boxes
 Versions of this box before v0.3.0
 have a lot of rough edges,
 including Vagrantfiles that aren't really correct.
@@ -270,13 +325,34 @@ and an up-to-date version of the box:
 ```
 vagrant halt
 vagrant destroy
-rm Vagrantfile
+rm Vagrantfile # if you haven't modified the Vagrantfile
 vagrant init jadesystems/rails-5-1
 vagrant up
 vagrant ssh
 cd /vagrant
 bundle install
 ```
+
+If you have modified your Vagrantfile,
+instead of deleting it,
+edit it to change the line that starts with `config.vm.box`
+to read:
+```
+config.vm.box = 'jadesystems/rails-5-1'
+```
+
 Also,
 the [Vagrant documentation](https://www.vagrantup.com/docs/)
 will be very helpful if you're trying to figure out a problem.
+
+## Legacy Rails Applications
+I got messages like this when I ran `rake test`:
+```
+Could not find rake-10.1.1 in any of the sources
+Run `bundle install` to install missing gems.
+```
+
+This happened when I didn't install `gem install bundler`
+before doing the `bundle install`.
+I found the simplest solution is to destroy the box and start over,
+carefully following the instructions [here](#Install-the-Right-Ruby-Version).
