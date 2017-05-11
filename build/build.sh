@@ -10,7 +10,8 @@ sudo chown -R vagrant:vagrant ~vagrant/.ssh
 
 sudo apt-get update -y -qq
 sudo apt-get install -y -q virtualbox-guest-utils virtualbox-guest-dkms
-sudo apt-get install -y -q linux-headers-$(uname -r) build-essential dkms
+sudo apt-get install -y -q linux-headers-generic
+sudo apt-get install -y -q build-essential dkms
 sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev
 
 # rbenv install Issue #20
@@ -19,7 +20,6 @@ git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 cd ~/.rbenv && src/configure && make -C src
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
 export PATH="$HOME/.rbenv/bin:$PATH"
-# ~/.rbenv/bin/rbenv init # Guessing I don't need this since i put in the following line
 echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 eval "$(rbenv init -)"
 # end rbenv install
@@ -32,7 +32,7 @@ cd
 # end ruby-build install
 
 # Build default Ruby
-apt-get install -y libssl-dev zlib1g-dev
+sudo apt-get install -y -q libssl-dev zlib1g-dev
 rbenv rehash
 rbenv install 2.4.1
 rbenv global 2.4.1

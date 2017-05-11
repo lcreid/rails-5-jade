@@ -1,3 +1,11 @@
+## V2.0.1
+
+*   Fix the `dpkg` error.
+
+    Issue #21.
+
+    *Larry Reid*
+
 ## V2.0.0
 
 *   Add `rbenv`.
