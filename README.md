@@ -57,6 +57,8 @@ On the vagrant box:
 cd /vagrant
 rails server --bind 0.0.0.0
 ```
+(There appears to be an issue in Rails 5.1
+that requires you to add `-p 3000` to the `rails server` command.)
 You can append `&` to the line to run in the background.
 The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
