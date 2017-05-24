@@ -1,3 +1,11 @@
+## V2.0.2
+
+*   Really fix the `dpkg` error.
+
+    Issue #21.
+
+    *Larry Reid*
+
 ## V2.0.1
 
 *   Fix the `dpkg` error.
