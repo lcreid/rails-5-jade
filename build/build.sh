@@ -1,5 +1,6 @@
 #!/bin/bash
 sleep 30
+set -e
 
 # Set up insecure key (standard Vagrant practice)
 sudo mkdir ~vagrant/.ssh
@@ -15,28 +16,28 @@ sudo apt-get install -y -q build-essential dkms
 sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev
 
 # rbenv install Issue #20
-sudo apt-get install -y libreadline-dev
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-cd ~/.rbenv && src/configure && make -C src
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-export PATH="$HOME/.rbenv/bin:$PATH"
-echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-eval "$(rbenv init -)"
+# sudo apt-get install -y libreadline-dev
+# git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+# cd ~/.rbenv && src/configure && make -C src
+# echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+# eval "$(rbenv init -)"
 # end rbenv install
 
 # ruby-build install
-git clone https://github.com/rbenv/ruby-build.git
-cd ruby-build
-sudo ./install.sh
-cd
+# git clone https://github.com/rbenv/ruby-build.git
+# cd ruby-build
+# sudo ./install.sh
+# cd
 # end ruby-build install
 
 # Build default Ruby
-sudo apt-get install -y -q libssl-dev zlib1g-dev
-rbenv rehash
-rbenv install 2.4.1
-rbenv global 2.4.1
-rbenv rehash
+# sudo apt-get install -y -q libssl-dev zlib1g-dev
+# rbenv rehash
+# rbenv install 2.4.1
+# rbenv global 2.4.1
+# rbenv rehash
 # End build default Ruby
 
 sudo gem install jekyll --no-document
@@ -64,11 +65,10 @@ sudo gem install poltergeist --no-document
 sudo apt-get -y -q install graphviz
 
 # Clean up
-sudo apt-get update -y -qq
+sudo apt-get update -y -q
 # You have to do both types of upgrade explicitly.
-sudo apt-get upgrade -y -qq
-sudo apt-get dist-upgrade -y -qq
-sudo apt-get autoremove -y -qq
+sudo apt-get upgrade -y -q
+sudo apt-get dist-upgrade -y -q
+sudo apt-get autoremove -y -q
 
 sudo gem install rails -v 5.1.0 --no-document
-rbenv rehash

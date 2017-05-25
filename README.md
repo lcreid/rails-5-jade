@@ -224,16 +224,32 @@ rails db:setup
 Here are some notes if you want to run older Rails applications
 in this box.
 
-## rbenv
-You should use the built-in `rbenv`,
-or un-install it and install `rvm`.
+## `rbenv` or `rvm`
+You should use the either `rbenv`,
+or `rvm`.
 Both are good tools for managing multiple versions of Ruby
 on the same computer.
 
-The rest of this documentation describes specific `rbenv` commands
-you will need to execute.
 Refer to the [`rbenv` documentation](https://github.com/rbenv/rbenv)
-for complete information about how to use `rbenv`.
+for complete information about how to install, set up, and use `rbenv`.
+
+Refer to the [`rvm` documentation](https://rvm.io/)
+for complete information about how to install, set up, and use `rvm`.
+
+We prefer `rbenv`,
+so the rest of this documentation describes specific `rbenv` commands
+you will need to execute,
+once you've installed `rbenv`.
+
+### Manually Install Bundler
+It appears to be very important that you install Bundler manually
+before you install your application's gems.
+
+Reminder: As with any new development instance,
+you need to run Bundler before testing or running the application:
+```
+bundle install
+```
 
 ### Install the Right Ruby Version
 If you haven't used `rbenv` with your Rails application,
@@ -252,15 +268,6 @@ run:
 rbenv install
 gem install bundler
 rbenv rehash
-```
-
-It appears to be very important that you install Bundler manually
-before you install your application's gems.
-
-Reminder: As with any new development instance,
-you need to fund Bundler before testing or running the application:
-```
-bundle install
 ```
 
 ## MySQL
