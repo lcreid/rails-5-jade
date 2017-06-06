@@ -64,29 +64,22 @@ The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
 
 # Using Postgres with Rails
-You have to create a Postgres user
-before you can use Postgres as your database in Rails.
-You also have to change your `database.yml` file.
+To use Postgres, you have to add the Postgres gem
+to your `Gemfile`, 
+and change your `database.yml` file.
 
-To create a user "pg" with password "pg", run this command in the Vagrant machine:
+Add these lines to you `Gemfile`:
 ```
-sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
+# Use postgres as the database for Active Record
+gem 'pg'
 ```
-(Unfortunately,
-the database user has to have Postgres superuser privileges,
-because Rails disables integrity constraints while loading fixtures,
-and only the Postgres superuser can disable integrity constraints.)
-
-(Obviously you would only use such obvious user names and passwords
-for a local development or test database.
-Use a better password for production systems.)
 
 Change the `config/database.yml` file to look like this:
 ```
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: 5
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: localhost
   username: pg
   password: pg
@@ -102,11 +95,11 @@ test:
   <<: *default
   database: test
 
-# production:
-#   <<: *default
-#   database: production
-#   username: <%= ENV['DATABASE_USERNAME'] %>
-#   password: <%= ENV['DATABASE_PASSWORD'] %>
+production:
+  <<: *default
+  database: production
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
 ```
 Then run:
 ```
@@ -114,6 +107,12 @@ rails db:create:all
 rails db:migrate
 rails db:migrate RAILS_ENV=test
 ```
+The default user name and passwords
+set up in this box are `pg` and `pg`. 
+Obviously you would only use such obvious user names and passwords
+for a local development or test database.
+Use a better password for production systems.
+
 You can, of course,
 change the owner or the password in the "create role" command,
 but you have to make sure you change them in all the appropriate places
@@ -127,6 +126,12 @@ To log in to the development database using `psql`:
 psql -U pg -h localhost -d development
 ```
 Simply replace `development` with `test` for the test database.
+
+(Note: Unfortunately,
+the database user has to have Postgres superuser privileges,
+because Rails disables integrity constraints while loading fixtures,
+and only the Postgres superuser can disable integrity constraints.)
+
 # Create a New Jekyll Site with this Base Box
 ```
 mkdir new-project
