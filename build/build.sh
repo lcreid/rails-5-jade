@@ -45,7 +45,12 @@ sudo gem install jekyll --no-document
 sudo apt-get install -y -q patch zlib1g-dev liblzma-dev
 # Install Node (from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
-sudo apt-get install -y -q -y nodejs
+sudo apt-get install -y -q nodejs
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" |
+  sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get -y -qq update
+sudo apt-get install -y -q yarn
 # Install Postgres
 sudo apt-get install -y -q postgresql-9.5 postgresql-server-dev-9.5
 sudo gem install pg --no-document

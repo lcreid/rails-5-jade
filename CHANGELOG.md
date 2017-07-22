@@ -1,3 +1,9 @@
+## V1.0.2
+
+*   Add yarn.
+
+    *Larry Reid*
+
 ## V2.0.2
 
 *   Really fix the `dpkg` error.

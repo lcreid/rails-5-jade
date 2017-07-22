@@ -243,7 +243,10 @@ once you've installed `rbenv`.
 
 ### Manually Install Bundler
 It appears to be very important that you install Bundler manually
-before you install your application's gems.
+before you install your application's gems:
+```
+gem install bundler
+```
 
 Reminder: As with any new development instance,
 you need to run Bundler before testing or running the application:
