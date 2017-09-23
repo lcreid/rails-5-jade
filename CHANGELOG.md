@@ -1,3 +1,10 @@
+## V1.1.0
+
+*   Add Redis 3.2.11.
+    Ubuntu 16.04.03.
+
+    *Larry Reid*
+
 ## V1.0.2
 
 *   Add yarn.

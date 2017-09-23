@@ -55,6 +55,65 @@ sudo apt-get install -y -q yarn
 sudo apt-get install -y -q postgresql-9.5 postgresql-server-dev-9.5
 sudo gem install pg --no-document
 sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
+# Install Redis
+# The version in the Ubuntu 16.04 repository is quite old (3.0)
+# At the time of writing, the most recent version of 3 was 3.2,
+# and 4.0 was already in use.
+# Adapted from: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
+sudo apt-get install -y -q tcl
+curl -O http://download.redis.io/releases/redis-3.2.11.tar.gz
+tar -xzvf redis-3.2.11.tar.gz
+cd redis-3.2.11
+# curl -O http://download.redis.io/redis-stable.tar.gz
+# tar -xzvf redis-stable.tar.gz
+# cd redis-stable
+sudo mkdir /etc/redis
+make
+sudo make install
+sudo adduser --system --group --no-create-home redis
+sudo mkdir /var/lib/redis /var/log/redis
+sudo chown redis:redis /var/lib/redis /var/log/redis
+sudo chmod 770 /var/lib/redis /var/log/redis
+sudo sed -i.original \
+  -e '/^supervised no/s/no/systemd/' \
+  -e '/^dir/s;.*;dir /var/lib/redis;' \
+  -e '/^logfile/s;"";"/var/log/redis/redis.log";' redis.conf
+sudo cp redis.conf /etc/redis
+cat >redis.service <<EOF
+[Unit]
+Description=Redis In-Memory Data Store
+After=network.target
+
+[Service]
+User=redis
+Group=redis
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
+ExecStop=/usr/local/bin/redis-cli shutdown
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo cp redis.service /etc/systemd/system/
+cat >redis <<EOF
+/var/log/redis/*.log {
+  weekly
+  rotate 10
+  copytruncate
+  delaycompress
+  compress
+  notifempty
+  missingok
+  su root root
+}
+EOF
+sudo cp redis /etc/logrotate.d
+sudo systemctl enable redis
+# make test hangs on 4.0. Internet suggests: `taskset -c 1 make test`
+# https://github.com/antirez/redis/issues/1417
+# But above obviously doesn't work on single CPU Vagrant box.
+# 3.2 passed test at least once.
+cd ..
 # Sendmail
 sudo apt-get install -y -q sendmail
 # Need the following if you're going to build webkit for Capybara
