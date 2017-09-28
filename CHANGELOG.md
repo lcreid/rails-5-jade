@@ -1,3 +1,9 @@
+## V1.1.1
+
+*   Adjust location of Redis configuration file.
+
+    *Larry Reid*
+
 ## V1.1.0
 
 *   Add Redis 3.2.11.

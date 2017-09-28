@@ -6,6 +6,7 @@ This base box currently includes:
 * Rails 5.1
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
+* Redis (3.2 as the 4 series failed testing on this box)
 * PhantomJS, so we can use Capybara with Poltergeist for integration/acceptance testing
 * Graphviz, so we can use Rails ERD to generate documentation
 * Node, for Node development, and for the Rails asset pipeline
@@ -65,7 +66,7 @@ with anything else you do in that terminal.
 
 # Using Postgres with Rails
 To use Postgres, you have to add the Postgres gem
-to your `Gemfile`, 
+to your `Gemfile`,
 and change your `database.yml` file.
 
 Add these lines to you `Gemfile`:
@@ -108,7 +109,7 @@ rails db:migrate
 rails db:migrate RAILS_ENV=test
 ```
 The default user name and passwords
-set up in this box are `pg` and `pg`. 
+set up in this box are `pg` and `pg`.
 Obviously you would only use such obvious user names and passwords
 for a local development or test database.
 Use a better password for production systems.
@@ -158,6 +159,21 @@ jekyll serve --host 0.0.0.0 --force_polling
 You can append `&` to the line to run in the background.
 The output from the `jekyll serve` will appear mixed in
 with anything else you do in that terminal.
+
+# Redis
+If you need Redis,
+this box has a recent stable version of Redis.
+However, it's not set up to start automatically.
+To set up Redis to start when the Vagrant box starts,
+type:
+```
+sudo systemctl enable redis
+```
+
+To start Redis without a reboot, type:
+```
+sudo systemctl start redis
+```
 
 # Upgrading a Box
 This box is still relatively new,
