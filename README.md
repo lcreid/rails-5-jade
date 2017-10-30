@@ -7,7 +7,8 @@ This base box currently includes:
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
 * Redis (3.2 as the 4 series failed testing on this box)
-* PhantomJS, so we can use Capybara with Poltergeist for integration/acceptance testing
+* Chrome, because it now has a headless option
+* PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now the headless Chrome has arrived, so PhantomJS and Poltergeist will enventually be removed
 * Graphviz, so we can use Rails ERD to generate documentation
 * Node, for Node development, and for the Rails asset pipeline
 * `rbenv`, although you don't have to use either `rvm` or `rbenv`

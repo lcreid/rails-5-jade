@@ -101,8 +101,19 @@ sudo cp redis.service /etc/systemd/system/
 cd ..
 # Sendmail
 sudo apt-get install -y -q sendmail
+
+# Install Chrome because the world is moving to headless Chrome.
+# From: https://askubuntu.com/a/510186/264753
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add
+echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+sudo apt-get -y -q update
+sudo apt-get -y -q install google-chrome-stable
+
 # Need the following if you're going to build webkit for Capybara
 sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb
+
+# PhantomJS is going away, but leave it in for a while to support transition
+# to headless Chrome.
 # Issue #13 Install phantomjs to support Poltergeist, instead of Webkit
 # The one from the the Ubuntu repository is too old and has a core dump
 wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2

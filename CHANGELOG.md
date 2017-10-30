@@ -1,3 +1,9 @@
+## V3.0.0
+
+*   Add Chrome.
+
+    *Larry Reid*
+
 ## V1.1.1
 
 *   Adjust location of Redis configuration file.
