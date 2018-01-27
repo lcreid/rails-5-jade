@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-  config.vm.box = 'jadesystems/rails-5-1'
+  config.vm.box = 'jadesystems/rails-5-2'
   # Create a forwarded port mapping which allows access to a specific port
   # This one is for running Rails (puma, mongrel)
   # Note that when you run `rails server`, you need to specify that it

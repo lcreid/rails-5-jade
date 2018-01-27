@@ -1,3 +1,10 @@
+## V4.0.0
+
+*   Rails 5.2.
+*   Ubuntu 18.04
+
+    *Larry Reid*
+
 ## V3.0.0
 
 *   Add Chrome.

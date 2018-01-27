@@ -1,16 +1,17 @@
 # rails-5-jade
-A Vagrant base box with Rails 5 with Jekyll and Node on Ubuntu 16.04.
+A Vagrant base box with Rails 5.2 with Jekyll and Node on Ubuntu 16.04.
 
 This base box currently includes:
 
-* Rails 5.1
+* Ubuntu 16.04.03
+* Rails 5.2 (beta)
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
 * Redis (3.2 as the 4 series failed testing on this box)
 * Chrome, because it now has a headless option
 * PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now the headless Chrome has arrived, so PhantomJS and Poltergeist will enventually be removed
 * Graphviz, so we can use Rails ERD to generate documentation
-* Node, for Node development, and for the Rails asset pipeline
+* Node 8, for Node development, and for the Rails asset pipeline
 * `rbenv`, although you don't have to use either `rvm` or `rbenv`
 when using this box
 
@@ -27,7 +28,7 @@ if you want to use Postgres.
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-5-1
+vagrant init jadesystems/rails-5-2
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -59,8 +60,6 @@ On the vagrant box:
 cd /vagrant
 rails server --bind 0.0.0.0
 ```
-(There appears to be an issue in Rails 5.1
-that requires you to add `-p 3000` to the `rails server` command.)
 You can append `&` to the line to run in the background.
 The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
@@ -113,7 +112,7 @@ The default user name and passwords
 set up in this box are `pg` and `pg`.
 Obviously you would only use such obvious user names and passwords
 for a local development or test database.
-Use a better password for production systems.
+Use a better password for production systems, or any system accessible from a network.
 
 You can, of course,
 change the owner or the password in the "create role" command,
@@ -138,7 +137,7 @@ and only the Postgres superuser can disable integrity constraints.)
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-5-1
+vagrant init jadesystems/rails-5-2
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -177,19 +176,7 @@ sudo systemctl start redis
 ```
 
 # Upgrading a Box
-This box is still relatively new,
-and we're adding features all the time.
-Also, Rails versions change.
-You may want to upgrade the machine on your workstation
-from time to time.
-
-Note: Upgrading the box destroys any changes you've made
-to the machine,
-e.g. installing additional packages,
-and Postgres databases.
-However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory
-(the directory shared with your workstation).
-Your Rails, Jekyll, and other projects are not touched.
+If you want to upgrade the machine on your workstation note that upgrading the box destroys any changes you've made to the machine, e.g. additional packages installed, Redis enabled to start automatically, and Postgres databases. However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory (the directory shared with your workstation). In particular, SQLite databases will be preserved. Your Rails, Jekyll, and other projects are not touched.
 
 ## Get the Updated Box
 First, check to see whether there's a new version of the box available:
@@ -217,6 +204,7 @@ vagrant destroy
 vagrant up
 vagrant ssh
 cd /vagrant
+sudo gem update bundler
 bundle install
 ```
 The final `bundle install` is required
@@ -247,7 +235,7 @@ Here are some notes if you want to run older Rails applications
 in this box.
 
 ## `rbenv` or `rvm`
-You should use the either `rbenv`,
+You should use either `rbenv`,
 or `rvm`.
 Both are good tools for managing multiple versions of Ruby
 on the same computer.
@@ -318,7 +306,6 @@ You can set the time to sync by entering this in the Vagrant box:
 ```
 sudo VBoxService --timesync-set-start
 ```
-I tried a more permanent solution, but I haven't used it long enough to know if it works.
 First, get the name of the Vagrant box by entering this on the host:
 ```
 VBoxManage list vms
@@ -372,7 +359,7 @@ instead of deleting it,
 edit it to change the line that starts with `config.vm.box`
 to read:
 ```
-config.vm.box = 'jadesystems/rails-5-1'
+config.vm.box = 'jadesystems/rails-5-2'
 ```
 
 Also,

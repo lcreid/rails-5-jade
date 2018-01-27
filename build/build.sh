@@ -44,7 +44,7 @@ sudo gem install jekyll --no-document
 # Nokogiri build dependencies (from http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian)
 sudo apt-get install -y -q patch zlib1g-dev liblzma-dev
 # Install Node (from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
-curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y -q nodejs
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" |
@@ -56,6 +56,7 @@ sudo apt-get install -y -q postgresql-9.5 postgresql-server-dev-9.5
 sudo gem install pg --no-document
 sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
 # Install Redis
+# sudo apt-get install -y -q redis-server redis-tools
 # The version in the Ubuntu 16.04 repository is quite old (3.0)
 # At the time of writing, the most recent version of 3 was 3.2,
 # and 4.0 was already in use.
@@ -131,4 +132,4 @@ sudo apt-get upgrade -y -q
 sudo apt-get dist-upgrade -y -q
 sudo apt-get autoremove -y -q
 
-sudo gem install rails -v 5.1.0 --no-document
+sudo gem install rails -v 5.2.0.beta2 --no-document
