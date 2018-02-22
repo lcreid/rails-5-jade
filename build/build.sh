@@ -12,7 +12,7 @@ sudo chown -R vagrant:vagrant ~vagrant/.ssh
 sudo apt-get update -y -qq
 sudo apt-get install -y -q virtualbox-guest-utils virtualbox-guest-dkms
 sudo apt-get install -y -q linux-headers-generic
-sudo apt-get install -y -q build-essential dkms
+sudo apt-get install -y -q build-essential dkms autogen autoconf libtool
 sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev
 
 # rbenv install Issue #20

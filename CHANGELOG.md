@@ -1,3 +1,9 @@
+## V4.0.1
+
+*   Building libffi, needed by sass, needs more dev tools.
+
+    *Larry Reid*
+
 ## V4.0.0
 
 *   Rails 5.2.
