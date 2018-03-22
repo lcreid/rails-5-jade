@@ -63,15 +63,18 @@
     ]
   }],
   "provisioners": [{
-    "type": "shell",
-    "script": "build.sh"
-  }],
-  "post-processors": [
+      "type": "shell",
+      "script": "build.sh"
+    },
     {
-        "type": "vagrant",
-        "only": ["virtualbox-iso"],
-        "output": "rails5-2.box",
-        "vagrantfile_template": "../Vagrantfile"
+      "type": "shell",
+      "script": "minimize.sh"
     }
-  ]
+  ],
+  "post-processors": [{
+    "type": "vagrant",
+    "only": ["virtualbox-iso"],
+    "output": "rails5-2.box",
+    "vagrantfile_template": "../Vagrantfile"
+  }]
 }
