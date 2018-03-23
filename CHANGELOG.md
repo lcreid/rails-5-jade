@@ -1,3 +1,12 @@
+## V4.0.2
+
+*   Zero out space after build, to reduce the size of the raw box
+    by about 500 MB.
+*   Update version in README.
+*   Correct earlier CHANGELOG entry.
+
+    *Larry Reid*
+
 ## V4.0.1
 
 *   Building libffi, needed by sass, needs more dev tools.
@@ -7,7 +16,6 @@
 ## V4.0.0
 
 *   Rails 5.2.
-*   Ubuntu 18.04
 
     *Larry Reid*
 

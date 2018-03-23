@@ -347,7 +347,7 @@ and an up-to-date version of the box:
 vagrant halt
 vagrant destroy
 rm Vagrantfile # if you haven't modified the Vagrantfile
-vagrant init jadesystems/rails-5-1
+vagrant init jadesystems/rails-5-2
 vagrant up
 vagrant ssh
 cd /vagrant
