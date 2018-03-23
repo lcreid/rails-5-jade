@@ -1,11 +1,7 @@
 .vagrant
 authorized_keys
-package.box
-build/Vagrantfile
 packer_cache/
 output-virtualbox-iso/
 *.box
 jkl/
 ror/
-build/nutch/
-build/solr/

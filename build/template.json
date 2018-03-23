@@ -75,6 +75,6 @@
     "type": "vagrant",
     "only": ["virtualbox-iso"],
     "output": "rails5-2.box",
-    "vagrantfile_template": "../Vagrantfile"
+    "vagrantfile_template": "Vagrantfile"
   }]
 }
