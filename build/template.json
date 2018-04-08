@@ -22,7 +22,7 @@
       "<bs><bs><bs>",
       "auto preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
       "debian-installer=en_CA locale=en_CA kbd-chooser/method=us ",
-      "hostname=rails-5-2 ",
+      "hostname=rails-5-2-mssql ",
       "fb=false debconf/frontend=noninteractive ",
       "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
       "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
@@ -38,14 +38,14 @@
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
     "ssh_wait_timeout": "10000s",
-    "disk_size": "8000",
+    "disk_size": "10000",
     "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
     "vboxmanage": [
       [
         "modifyvm",
         "{{.Name}}",
         "--memory",
-        "1024"
+        "4096"
       ],
       [
         "modifyvm",
@@ -64,17 +64,13 @@
   }],
   "provisioners": [{
       "type": "shell",
-      "script": "build.sh"
-    },
-    {
-      "type": "shell",
-      "script": "minimize.sh"
+      "scripts": ["build.sh", "mssql.sh", "cleanup.sh", "minimize.sh"]
     }
   ],
   "post-processors": [{
     "type": "vagrant",
     "only": ["virtualbox-iso"],
-    "output": "rails5-2.box",
+    "output": "rails5-2-mssql.box",
     "vagrantfile_template": "Vagrantfile"
   }]
 }

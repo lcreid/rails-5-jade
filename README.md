@@ -28,7 +28,7 @@ if you want to use Postgres.
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-5-2
+vagrant init jadesystems/rails-5-2-mssql
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -137,7 +137,7 @@ and only the Postgres superuser can disable integrity constraints.)
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-5-2
+vagrant init jadesystems/rails-5-2-mssql
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -347,7 +347,7 @@ and an up-to-date version of the box:
 vagrant halt
 vagrant destroy
 rm Vagrantfile # if you haven't modified the Vagrantfile
-vagrant init jadesystems/rails-5-2
+vagrant init jadesystems/rails-5-2-mssql
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -359,7 +359,7 @@ instead of deleting it,
 edit it to change the line that starts with `config.vm.box`
 to read:
 ```
-config.vm.box = 'jadesystems/rails-5-2'
+config.vm.box = 'jadesystems/rails-5-2-mssql'
 ```
 
 Also,

@@ -51,10 +51,7 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" |
   sudo tee /etc/apt/sources.list.d/yarn.list
 sudo apt-get -y -qq update
 sudo apt-get install -y -q yarn
-# Install Postgres
-sudo apt-get install -y -q postgresql-9.5 postgresql-server-dev-9.5
-sudo gem install pg --no-document
-sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
+
 # Install Redis
 # sudo apt-get install -y -q redis-server redis-tools
 # The version in the Ubuntu 16.04 repository is quite old (3.0)
@@ -124,12 +121,5 @@ sudo chown root:root /usr/bin/phantomjs
 sudo gem install poltergeist --no-document
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
-
-# Clean up
-sudo apt-get update -y -q
-# You have to do both types of upgrade explicitly.
-sudo apt-get upgrade -y -q
-sudo apt-get dist-upgrade -y -q
-sudo apt-get autoremove -y -q
 
 sudo gem install rails -v 5.2.0.rc2 --no-document
