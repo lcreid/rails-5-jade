@@ -1,12 +1,12 @@
-# rails-5-jade
-A Vagrant base box with Rails 5.2 with Jekyll and Node on Ubuntu 16.04.
+# rails-5-jade-mssql
+A Vagrant base box with Rails 5.2 and MS SQL Server 2017 with Jekyll and Node on Ubuntu 16.04.
 
 This base box currently includes:
 
 * Ubuntu 16.04.03
-* Rails 5.2 (beta)
+* Rails 5.2.0rc2
 * Jekyll, because it's what you need for Github Pages
-* Postgres, because that's our standard database (and Heroku's standard Rails database)
+* Microsoft SQL Server 2017, because some clients want to use the database they know
 * Redis (3.2 as the 4 series failed testing on this box)
 * Chrome, because it now has a headless option
 * PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now the headless Chrome has arrived, so PhantomJS and Poltergeist will enventually be removed
@@ -21,8 +21,8 @@ Also, you still have to configure your `Gemfile`
 or other configuration files
 to use the components.
 For example,
-you have to configure `config/database.yml` to use Postgres,
-if you want to use Postgres.
+you have to configure `config/database.yml` to use MS SQL Server,
+if you want to use MS SQL Server.
 
 # Create a New Rails App with this Base Box
 ```
@@ -64,26 +64,24 @@ You can append `&` to the line to run in the background.
 The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
 
-# Using Postgres with Rails
-To use Postgres, you have to add the Postgres gem
-to your `Gemfile`,
-and change your `database.yml` file.
+# Using MS SQL Server with Rails
+To use MS SQL Server, you have to add the MS SQL Server gem to your `Gemfile`, and change your `database.yml` file.
 
-Add these lines to you `Gemfile`:
+Add these lines to your `Gemfile`:
 ```
-# Use postgres as the database for Active Record
-gem 'pg'
+# Use MS SQL Server as the database for Active Record
+gem 'tiny_tds'
+gem 'activerecord-sqlserver-adapter'
 ```
 
 Change the `config/database.yml` file to look like this:
 ```
 default: &default
-  adapter: postgresql
-  encoding: unicode
+  adapter: sqlserver
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: localhost
-  username: pg
-  password: pg
+  username: sa
+  password: "MSSQLadmin!"
 
 development:
   <<: *default
@@ -104,34 +102,26 @@ production:
 ```
 Then run:
 ```
+rails db:setup
+```
+Or in the old days:
+```
 rails db:create:all
 rails db:migrate
 rails db:migrate RAILS_ENV=test
 ```
 The default user name and passwords
-set up in this box are `pg` and `pg`.
+set up in this box are `sa` and `MSSQLadmin!`.
 Obviously you would only use such obvious user names and passwords
 for a local development or test database.
 Use a better password for production systems, or any system accessible from a network.
 
-You can, of course,
-change the owner or the password in the "create role" command,
-but you have to make sure you change them in all the appropriate places
-in `config/database.yml`.
-Note also that you'll have to set up the production database
-to be appropriate for your production platform.
-The above is merely a template.
-
-To log in to the development database using `psql`:
+To log in to the development database using `sqlcmd`:
 ```
-psql -U pg -h localhost -d development
+sqlcmd -S localhost -U SA -P '<YourPassword>'
+use development
 ```
 Simply replace `development` with `test` for the test database.
-
-(Note: Unfortunately,
-the database user has to have Postgres superuser privileges,
-because Rails disables integrity constraints while loading fixtures,
-and only the Postgres superuser can disable integrity constraints.)
 
 # Create a New Jekyll Site with this Base Box
 ```
@@ -176,7 +166,7 @@ sudo systemctl start redis
 ```
 
 # Upgrading a Box
-If you want to upgrade the machine on your workstation note that upgrading the box destroys any changes you've made to the machine, e.g. additional packages installed, Redis enabled to start automatically, and Postgres databases. However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory (the directory shared with your workstation). In particular, SQLite databases will be preserved. Your Rails, Jekyll, and other projects are not touched.
+If you want to upgrade the machine on your workstation note that upgrading the box destroys any changes you've made to the machine, e.g. additional packages installed, Redis enabled to start automatically, and MS SQL Server databases. However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory (the directory shared with your workstation). In particular, SQLite databases will be preserved. Your Rails, Jekyll, and other projects are not touched.
 
 ## Get the Updated Box
 First, check to see whether there's a new version of the box available:
@@ -219,10 +209,9 @@ This is nothing to worry about.
 The message is printed whether or not the package is installed.
 GraphViz is installed on this box.
 
-## Postgres After Update
-The Postgres database is on the base box file system only,
-so you have to recreate the Postgres database
-after upgrading the box.
+## MS SQL Server After Update
+The MS SQL Server database is on the base box file system only,
+so you have to recreate the database after upgrading the box.
 
 Run:
 ```
@@ -283,14 +272,6 @@ gem install bundler
 rbenv rehash
 ```
 
-## MySQL
-If your legacy application uses MySQL,
-you have to install the MySQL development library
-before you install or bundle the gems:
-```
-sudo apt-get install libmysqlclient-dev
-```
-
 # Troubleshooting
 ## Time
 Time synchronization on the Vagrant box seems to fail sometimes.
@@ -314,57 +295,6 @@ Then enter this on the host:
 ```
 VBoxManage guestproperty set guest_machine_name --timesync-set-on-restore 1
 ```
-
-## pg User, Fixtures, and Foreign Key Constraints
-When you upgrade the box, you lose the Postgres database.
-If the `pg` user isn't created with the right privileges,
-then you will get a lot of error messages like:
-```
-ActiveRecord::InvalidForeignKey: PG::ForeignKeyViolation: ERROR:  insert or update on table "cf0925s" violates foreign key constraint "fk_rails_707cb1bbd1"
-```
-The solution is to first drop the databases, then drop the `pg` user,
-Then, recreate the user and database:
-```
-cd /vagrant
-rails db:drop
-sudo -u postgres psql -c "drop role pg;"
-sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
-rails db:setup
-```
-Earlier versions of this box didn't create the `pg` user correctly.
-You shouldn't run into this problem with boxes after v0.5.0.
-
-## Old Versions of these Boxes
-Versions of this box before v0.3.0
-have a lot of rough edges,
-including Vagrantfiles that aren't really correct.
-If you're having problems,
-and you haven't modified your local Vagrantfile
-or the machine itself,
-it would be worthwhile to try getting a new Vagrantfile
-and an up-to-date version of the box:
-```
-vagrant halt
-vagrant destroy
-rm Vagrantfile # if you haven't modified the Vagrantfile
-vagrant init jadesystems/rails-5-2-mssql
-vagrant up
-vagrant ssh
-cd /vagrant
-bundle install
-```
-
-If you have modified your Vagrantfile,
-instead of deleting it,
-edit it to change the line that starts with `config.vm.box`
-to read:
-```
-config.vm.box = 'jadesystems/rails-5-2-mssql'
-```
-
-Also,
-the [Vagrant documentation](https://www.vagrantup.com/docs/)
-will be very helpful if you're trying to figure out a problem.
 
 ## Legacy Rails Applications
 I got messages like this when I ran `rake test`:
