@@ -132,4 +132,4 @@ sudo apt-get upgrade -y -q
 sudo apt-get dist-upgrade -y -q
 sudo apt-get autoremove -y -q
 
-sudo gem install rails -v 5.2.0.rc2 --no-document
+sudo gem install rails -v 5.2.0 --no-document

@@ -4,7 +4,7 @@ A Vagrant base box with Rails 5.2 with Jekyll and Node on Ubuntu 16.04.
 This base box currently includes:
 
 * Ubuntu 16.04.03
-* Rails 5.2 (beta)
+* Rails 5.2.0
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
 * Redis (3.2 as the 4 series failed testing on this box)

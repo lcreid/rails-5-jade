@@ -1,3 +1,9 @@
+## V4.0.3
+
+*   Rails 5.2.0 (general availability).
+
+    *Larry Reid*
+
 ## V4.0.2
 
 *   Zero out space after build, to reduce the size of the raw box
