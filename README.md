@@ -1,6 +1,8 @@
 # rails-5-jade-mssql
 A Vagrant base box with Rails 5.2 and MS SQL Server 2017 with Jekyll and Node on Ubuntu 16.04.
 
+NOTE: The MS SQL Server gems have not yet been released for Rails 5.2. Therefore, you should not use this box to create a new Rails project. You can use it for an existing project that uses Rails 5.1 or earlier (I believe). When the MS SQL Server gems are released for Rails 5.2, you can safely use this box to create new Rails 5.2 projects.
+
 This base box currently includes:
 
 * Ubuntu 16.04.03
