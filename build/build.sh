@@ -122,4 +122,4 @@ sudo gem install poltergeist --no-document
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
 
-sudo gem install rails -v 5.2.0.rc2 --no-document
+sudo gem install rails -v 5.2.0 --no-document

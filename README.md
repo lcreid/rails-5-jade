@@ -6,7 +6,7 @@ NOTE: The MS SQL Server gems have not yet been released for Rails 5.2. Therefore
 This base box currently includes:
 
 * Ubuntu 16.04.03
-* Rails 5.2.0rc2
+* Rails 5.2.0
 * Jekyll, because it's what you need for Github Pages
 * Microsoft SQL Server 2017, because some clients want to use the database they know
 * Redis (3.2 as the 4 series failed testing on this box)
