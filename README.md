@@ -11,7 +11,7 @@ This base box currently includes:
 * Microsoft SQL Server 2017, because some clients want to use the database they know
 * Redis (3.2 as the 4 series failed testing on this box)
 * Chrome, because it now has a headless option
-* PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now the headless Chrome has arrived, so PhantomJS and Poltergeist will enventually be removed
+* PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now that headless Chrome has arrived, so PhantomJS and Poltergeist will eventually be removed
 * Graphviz, so we can use Rails ERD to generate documentation
 * Node 8, for Node development, and for the Rails asset pipeline
 * `rbenv`, although you don't have to use either `rvm` or `rbenv`
@@ -67,7 +67,7 @@ The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
 
 # Using MS SQL Server with Rails
-To use MS SQL Server, you have to add the MS SQL Server gem to your `Gemfile`, and change your `database.yml` file.
+To use MS SQL Server, you have to add the MS SQL Server gems to your `Gemfile`, and change your `database.yml` file.
 
 Add these lines to your `Gemfile`:
 ```
