@@ -3,12 +3,13 @@ A Vagrant base box with Rails 5.2 and MS SQL Server 2017 with Jekyll and Node on
 
 NOTE: The MS SQL Server gems have not yet been released for Rails 5.2. Therefore, you should not use this box to create a new Rails project. You can use it for an existing project that uses Rails 5.1 or earlier (I believe). When the MS SQL Server gems are released for Rails 5.2, you can safely use this box to create new Rails 5.2 projects.
 
-This base box currently includes:
+This base box includes:
 
-* Ubuntu 16.04.03
+* Ubuntu 16.04.04
 * Rails 5.2.0
 * Jekyll, because it's what you need for Github Pages
 * Microsoft SQL Server 2017, because some clients want to use the database they know
+* `sqsh` because it's what `rails dbconsole` needs when used with MS SQL Server
 * Redis (3.2 as the 4 series failed testing on this box)
 * Chrome, because it now has a headless option
 * PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now that headless Chrome has arrived, so PhantomJS and Poltergeist will eventually be removed
@@ -16,6 +17,8 @@ This base box currently includes:
 * Node 8, for Node development, and for the Rails asset pipeline
 * `rbenv`, although you don't have to use either `rvm` or `rbenv`
 when using this box
+
+Enter issues at: https://github.com/lcreid/rails-5-jade/issues. See the README at: https://github.com/lcreid/rails-5-jade/tree/mssql.
 
 Note that this base box just installs the components in the operating system.
 You're free to use as many or as few as you want.

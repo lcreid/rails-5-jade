@@ -1,3 +1,9 @@
+## V0.0.3
+
+*   Add `sqsh` for Rails
+
+    *Larry Reid*
+
 ## V0.0.2
 
 *   Rails 5.2.0

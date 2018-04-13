@@ -16,6 +16,8 @@ sudo apt-get -y -q update
 ACCEPT_EULA=y DEBIAN_FRONTEND=noninteractive sudo -E apt-get install -y -q --no-install-recommends mssql-tools unixodbc-dev
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+# `rails dbconsole` uses `sqsh`
+sudo apt-get install -y -q sqsh
 
 # Tiny TDS
 # https://github.com/rails-sqlserver/tiny_tds#install
