@@ -40,7 +40,7 @@ sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev
 # rbenv rehash
 # End build default Ruby
 
-sudo gem install jekyll --no-document
+gem install --user-install jekyll --no-document
 # Nokogiri build dependencies (from http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian)
 sudo apt-get install -y -q patch zlib1g-dev liblzma-dev
 # Install Node (from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
@@ -110,16 +110,7 @@ sudo apt-get -y -q install google-chrome-stable
 # Need the following if you're going to build webkit for Capybara
 sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb
 
-# PhantomJS is going away, but leave it in for a while to support transition
-# to headless Chrome.
-# Issue #13 Install phantomjs to support Poltergeist, instead of Webkit
-# The one from the the Ubuntu repository is too old and has a core dump
-wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
-tar -xjf phantomjs-2.1.1-linux-x86_64.tar.bz2
-sudo cp -a phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
-sudo chown root:root /usr/bin/phantomjs
-sudo gem install poltergeist --no-document
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
 
-sudo gem install rails -v 5.2.0 --no-document
+gem install --user-install rails -v 5.2.0 --no-document

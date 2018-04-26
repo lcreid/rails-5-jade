@@ -1,3 +1,11 @@
+## V0.0.4
+
+-   Don't put path in ~/.bash_profile #2.
+    Remove PhantomJS and Poltergeist.
+    Don't `sudo gem install`.
+
+    *Larry Reid*
+
 ## V0.0.3
 
 *   Add `sqsh` for Rails
