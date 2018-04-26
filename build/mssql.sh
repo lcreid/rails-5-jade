@@ -14,7 +14,6 @@ sudo systemctl restart mssql-server.service
 sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"
 sudo apt-get -y -q update
 ACCEPT_EULA=y DEBIAN_FRONTEND=noninteractive sudo -E apt-get install -y -q --no-install-recommends mssql-tools unixodbc-dev
-echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 # `rails dbconsole` uses `sqsh`
 sudo apt-get install -y -q sqsh
