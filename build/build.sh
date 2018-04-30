@@ -40,7 +40,7 @@ sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev
 # rbenv rehash
 # End build default Ruby
 
-gem install --user-install jekyll --no-document
+sudo gem install jekyll --no-document
 # Nokogiri build dependencies (from http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian)
 sudo apt-get install -y -q patch zlib1g-dev liblzma-dev
 # Install Node (from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
@@ -113,4 +113,4 @@ sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
 
-gem install --user-install rails -v 5.2.0 --no-document
+sudo gem install rails -v 5.2.0 --no-document
