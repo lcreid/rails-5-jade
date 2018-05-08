@@ -1,13 +1,13 @@
 # rails-5-jade
-A Vagrant base box with Rails 5.2 with Jekyll and Node on Ubuntu 16.04.
+A Vagrant base box with Rails 5.2 with Jekyll and Node on Ubuntu 18.04.
 
 This base box currently includes:
 
-* Ubuntu 16.04.03
+* Ubuntu 18.04.0
 * Rails 5.2.0
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
-* Redis (3.2 as the 4 series failed testing on this box)
+* Redis (Version TBD)
 * Chrome, because it now has a headless option
 * PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now that headless Chrome has arrived, so PhantomJS and Poltergeist will eventually be removed
 * Graphviz, so we can use Rails ERD to generate documentation
@@ -250,6 +250,8 @@ We prefer `rbenv`,
 so the rest of this documentation describes specific `rbenv` commands
 you will need to execute,
 once you've installed `rbenv`.
+
+Note that there isn't enough disk space on this box to have many versions of Ruby.
 
 ### Manually Install Bundler
 It appears to be very important that you install Bundler manually

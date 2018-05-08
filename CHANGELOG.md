@@ -1,3 +1,11 @@
+## V5.0.0
+
+*   Ubuntu 18.04.
+    Newer Redis.
+    Clean up build directories to make box smaller.
+
+    *Larry Reid*
+
 ## V4.0.3
 
 *   Rails 5.2.0 (general availability).
