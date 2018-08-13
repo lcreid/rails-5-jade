@@ -24,6 +24,29 @@ For example,
 you have to configure `config/database.yml` to use Postgres,
 if you want to use Postgres.
 
+# Building this Box
+Ubuntu 18.04 seems to come with a whole new installer (Casper), which doesn't work the same as before. It doesn't seem to use the HTTP `preseed.cfg` at all. But when I build a custom ISO and gave it a specific preseed file, that didn't work either.
+
+I tried making my own ISO with my `preseed.cfg` in the `preseed` directory. I had to unpack the ISO by hand to get the right permissions:
+```
+mkdir ISO
+sudo mount -o loop ubuntu-18.04-server-preseeded.iso ISO
+```
+Then copy the files:
+```
+sudo mv ubuntu-18.04-server-preseeded/ISO/* .disk ubuntu-18.04-server-preseeded
+sudo cp -a http/preseed.cfg ubuntu-18.04-server-preseeded/preseed/
+sudo chown root:root ubuntu-18.04-server-preseeded/preseed/preseed.cfg
+sudo chmod a-w ubuntu-18.04-server-preseeded/preseed/preseed.cfg
+```
+Then create the new ISO:
+```
+sudo mkisofs -r -cache-inodes -J -l -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -input-charset utf-8 -o ubuntu-18.04-server-preseeded.iso ubuntu-18.04-server-preseeded/
+```
+Note that the path to the boot file is relative to the root of the ISO, *not* the location the file is relative to CWD.
+
+References: https://www.wikihow.com/Create-an-ISO-File-in-Linux and https://askubuntu.com/questions/412280/how-to-extract-iso-images-to-the-hard-disk?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa.
+
 # Create a New Rails App with this Base Box
 ```
 mkdir new-project

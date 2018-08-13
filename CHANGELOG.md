@@ -1,7 +1,8 @@
 ## V5.0.0
 
 *   Ubuntu 18.04.
-    Newer Redis.
+    Newer Redis (the one that comes with Ubuntu 18.04).
+    Postgres 10.2.
     Clean up build directories to make box smaller.
 
     *Larry Reid*
