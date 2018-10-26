@@ -97,6 +97,7 @@ sudo cp redis.service /etc/systemd/system/
 # But above obviously doesn't work on single CPU Vagrant box.
 # 3.2 passed test at least once.
 cd ..
+rm redis*.tar.gz
 # Sendmail
 sudo apt-get install -y -q sendmail
 

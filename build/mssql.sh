@@ -9,6 +9,14 @@ sudo apt-get install -y -q mssql-server
 ACCEPT_EULA=y MSSQL_PID=Developer MSSQL_LCID=1033 MSSQL_SA_PASSWORD="MSSQLadmin!" sudo -E /opt/mssql/bin/mssql-conf setup
 sudo systemctl restart mssql-server.service
 
+# Since this is for development and test databases, we don't want the log files
+# to grow forever. Setting the model database sets all databases subsequently
+# created on this server.
+sqlcmd -U sa -P MSSQLadmin! <<CONFIG_DB
+alter database model set recovery simple;
+go
+CONFIG_DB
+
 # Client
 # Needs the keys obtained for server
 sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"
@@ -30,3 +38,4 @@ cd freetds-1.00.86
 make
 sudo make install
 cd -
+rm freetds*.tar.gz
