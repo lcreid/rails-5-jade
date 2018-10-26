@@ -1,3 +1,9 @@
+## V0.0.5
+
+-   Set simple database recovery mode in model database. #23.
+
+    *Larry Reid*
+
 ## V0.0.4
 
 -   Don't put path in ~/.bash_profile #2.
