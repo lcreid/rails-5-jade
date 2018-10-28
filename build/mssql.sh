@@ -9,14 +9,6 @@ sudo apt-get install -y -q mssql-server
 ACCEPT_EULA=y MSSQL_PID=Developer MSSQL_LCID=1033 MSSQL_SA_PASSWORD="MSSQLadmin!" sudo -E /opt/mssql/bin/mssql-conf setup
 sudo systemctl restart mssql-server.service
 
-# Since this is for development and test databases, we don't want the log files
-# to grow forever. Setting the model database sets all databases subsequently
-# created on this server.
-sqlcmd -U sa -P MSSQLadmin! <<CONFIG_DB
-alter database model set recovery simple;
-go
-CONFIG_DB
-
 # Client
 # Needs the keys obtained for server
 sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"
@@ -26,10 +18,18 @@ echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 # `rails dbconsole` uses `sqsh`
 sudo apt-get install -y -q sqsh
 
+# Since this is for development and test databases, we don't want the log files
+# to grow forever. Setting the model database sets all databases subsequently
+# created on this server.
+/opt/mssql-tools/bin/sqlcmd -U sa -P MSSQLadmin! <<CONFIG_DB
+alter database model set recovery simple;
+go
+CONFIG_DB
+
 # Tiny TDS
 # https://github.com/rails-sqlserver/tiny_tds#install
-apt-get install build-essential
-apt-get install libc6-dev
+sudo apt-get install build-essential
+sudo apt-get install libc6-dev
 
 wget http://www.freetds.org/files/stable/freetds-1.00.86.tar.gz
 tar -xzf freetds-1.00.86.tar.gz

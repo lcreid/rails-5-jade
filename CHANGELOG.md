@@ -1,6 +1,14 @@
-## V0.0.5
+## V0.5.1
+
+-   Fix setting simple database recovery mode in model database. #23.
+-   Update to Ubuntu 16.04.05.
+
+    *Larry Reid*
+
+## V0.5.0
 
 -   Set simple database recovery mode in model database. #23.
+-   Update to Ubuntu 16.04.04.
 
     *Larry Reid*
 
