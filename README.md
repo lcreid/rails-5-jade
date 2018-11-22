@@ -9,7 +9,7 @@ This base box includes:
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
 * Redis (3.2 as the 4 series failed testing on this box)
 * Chrome, because it now has a headless option
-* PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now the headless Chrome has arrived, so PhantomJS and Poltergeist will eventually be removed
+* PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now that headless Chrome has arrived, so PhantomJS and Poltergeist will eventually be removed
 * Graphviz, so we can use Rails ERD to generate documentation
 * Node 8, for Node development, and for the Rails asset pipeline
 * `rbenv`, although you don't have to use either `rvm` or `rbenv`
