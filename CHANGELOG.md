@@ -1,3 +1,9 @@
+## V4.0.5
+
+*   Fix the Vagrantfile to include the version constraint for 16.04.
+
+    *Larry Reid*
+
 ## V4.0.4
 
 *   Fix the wrong configuration in v4.0.3
