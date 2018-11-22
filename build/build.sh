@@ -62,7 +62,7 @@ sudo -u postgres psql -c "create role pg with superuser createdb login password 
 # and 4.0 was already in use.
 # Adapted from: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
 sudo apt-get install -y -q tcl
-curl -O http://download.redis.io/releases/redis-3.2.11.tar.gz
+wget http://download.redis.io/releases/redis-3.2.11.tar.gz
 tar -xzvf redis-3.2.11.tar.gz
 cd redis-3.2.11
 # curl -O http://download.redis.io/redis-stable.tar.gz
@@ -100,6 +100,8 @@ sudo cp redis.service /etc/systemd/system/
 # But above obviously doesn't work on single CPU Vagrant box.
 # 3.2 passed test at least once.
 cd ..
+rm -r redis-3.2.11 redis-3.2.11.tar.gz
+
 # Sendmail
 sudo apt-get install -y -q sendmail
 
@@ -121,6 +123,8 @@ wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_6
 tar -xjf phantomjs-2.1.1-linux-x86_64.tar.bz2
 sudo cp -a phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
 sudo chown root:root /usr/bin/phantomjs
+rm -r phantomjs-2.1.1-linux-x86_64 phantomjs-2.1.1-linux-x86_64.tar.bz2
+
 sudo gem install poltergeist --no-document
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
@@ -132,4 +136,4 @@ sudo apt-get upgrade -y -q
 sudo apt-get dist-upgrade -y -q
 sudo apt-get autoremove -y -q
 
-sudo gem install rails -v 5.2.0.rc2 --no-document
+sudo gem install rails -v 5.2.1 --no-document

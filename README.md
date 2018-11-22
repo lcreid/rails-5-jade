@@ -1,15 +1,15 @@
 # rails-5-jade
 A Vagrant base box with Rails 5.2 with Jekyll and Node on Ubuntu 16.04.
 
-This base box currently includes:
+This base box includes:
 
-* Ubuntu 16.04.03
-* Rails 5.2 (beta)
+* Ubuntu 16.04.05
+* Rails 5.2.1
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
 * Redis (3.2 as the 4 series failed testing on this box)
 * Chrome, because it now has a headless option
-* PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now the headless Chrome has arrived, so PhantomJS and Poltergeist will enventually be removed
+* PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now the headless Chrome has arrived, so PhantomJS and Poltergeist will eventually be removed
 * Graphviz, so we can use Rails ERD to generate documentation
 * Node 8, for Node development, and for the Rails asset pipeline
 * `rbenv`, although you don't have to use either `rvm` or `rbenv`
@@ -28,7 +28,7 @@ if you want to use Postgres.
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-5-2
+vagrant init --box-version "~> 4.0" jadesystems/rails-5-2
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -137,7 +137,7 @@ and only the Postgres superuser can disable integrity constraints.)
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-5-2
+vagrant init --box-version "~> 4.0" jadesystems/rails-5-2
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -250,6 +250,7 @@ We prefer `rbenv`,
 so the rest of this documentation describes specific `rbenv` commands
 you will need to execute,
 once you've installed `rbenv`.
+Note that there isn't enough disk space on this box to have many versions of Ruby.
 
 ### Manually Install Bundler
 It appears to be very important that you install Bundler manually
@@ -347,7 +348,7 @@ and an up-to-date version of the box:
 vagrant halt
 vagrant destroy
 rm Vagrantfile # if you haven't modified the Vagrantfile
-vagrant init jadesystems/rails-5-2
+vagrant init --box-version "~> 4.0" jadesystems/rails-5-2
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -356,10 +357,11 @@ bundle install
 
 If you have modified your Vagrantfile,
 instead of deleting it,
-edit it to change the line that starts with `config.vm.box`
+edit it to change the lines that start with `config.vm.box`
 to read:
 ```
 config.vm.box = 'jadesystems/rails-5-2'
+config.vm.box_version = "~> 4.0"
 ```
 
 Also,

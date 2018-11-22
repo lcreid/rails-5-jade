@@ -1,3 +1,10 @@
+## V4.0.4
+
+*   Fix the wrong configuration in v4.0.3
+*   Update to Ubuntu 16.04.5.
+
+    *Larry Reid*
+
 ## V4.0.2
 
 *   Zero out space after build, to reduce the size of the raw box
