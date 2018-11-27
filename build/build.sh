@@ -78,6 +78,7 @@ sudo sed -i.original \
   -e '/^supervised no/s/no/systemd/' \
   -e '/^dir/s;.*;dir /var/lib/redis;' \
   redis.conf
+sudo mkdir /etc/redis
 sudo cp redis.conf /etc/redis
 cat >redis.service <<EOF
 [Unit]
@@ -87,7 +88,7 @@ After=network.target
 [Service]
 User=redis
 Group=redis
-ExecStart=/usr/local/bin/redis-server /etc/redis.conf
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
 ExecStop=/usr/local/bin/redis-cli shutdown
 Restart=always
 

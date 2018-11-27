@@ -1,3 +1,9 @@
+## V4.0.7
+
+*   Nothing is too trivial for me to get wrong the first time.
+
+    *Larry Reid*
+
 ## V4.0.6
 
 *   Use the right location for the redis configuration file.
