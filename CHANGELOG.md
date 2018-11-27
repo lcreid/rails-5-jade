@@ -1,3 +1,9 @@
+## V4.0.6
+
+*   Use the right location for the redis configuration file.
+
+    *Larry Reid*
+
 ## V4.0.5
 
 *   Fix the Vagrantfile to include the version constraint for 16.04.
