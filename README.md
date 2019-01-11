@@ -31,7 +31,7 @@ vagrant init jadesystems/rails-5-1
 vagrant up
 vagrant ssh
 cd /vagrant
-rails new .
+rails new . --database=postgresql --skip-coffee
 echo ".vagrant" >>.gitignore
 ```
 Note the last line,
@@ -39,6 +39,8 @@ which will avoid putting a bunch of Vagrant's control information
 into your repository.
 It's unnecessary to put Vagrant's control information into the repository,
 and may cause others to have problems when starting the Vagrant machine on their workstation.
+
+(`--skip-coffee` is our standard. You're free to create a new Rails app with whatever options you want.)
 
 You also have to comment out one line
 and put another near the end of `config/environments/development.rb`
@@ -59,80 +61,56 @@ On the vagrant box:
 cd /vagrant
 rails server --bind 0.0.0.0
 ```
-(There appears to be an issue in Rails 5.1
-that requires you to add `-p 3000` to the `rails server` command.)
 You can append `&` to the line to run in the background.
 The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
 
 # Using Postgres with Rails
-To use Postgres, you have to add the Postgres gem
-to your `Gemfile`,
-and change your `database.yml` file.
+To use Postgres, you have to add the Postgres gem to your `Gemfile`. Add these lines to your `Gemfile`:
 
-Add these lines to you `Gemfile`:
 ```
 # Use postgres as the database for Active Record
 gem 'pg'
 ```
 
-Change the `config/database.yml` file to look like this:
-```
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: localhost
-  username: pg
-  password: pg
+If you've created you Rails application in the `/vagrant` directory of the Vagrant box, the database configuration should work as is. If you create the Rails application in any other directory, you have to change the `config/database.yml` file to use username and password `vagrant` for the development and test databases.
 
-development:
-  <<: *default
-  database: development
-
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: test
-
-production:
-  <<: *default
-  database: production
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
-```
 Then run:
 ```
 rails db:create:all
 rails db:migrate
 rails db:migrate RAILS_ENV=test
 ```
-The default user name and passwords
-set up in this box are `pg` and `pg`.
+The default database user name and password are the same as the directory name where the Rails app resides, typically `vagrant` and `vagrant`.
 Obviously you would only use such obvious user names and passwords
 for a local development or test database.
-Use a better password for production systems.
+Use a better password for production systems, or any system accessible from a network.
 
-You can, of course,
-change the owner or the password in the "create role" command,
-but you have to make sure you change them in all the appropriate places
-in `config/database.yml`.
+You can, of course, change the database owner or password. You have to:
+
+* Create a role in Postgres with database superuser privileges, using the "create role" command
+    ```
+    sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
+    ```
+
+* Change the user name and password in all the appropriate places in `config/database.yml`
+
 Note also that you'll have to set up the production database
 to be appropriate for your production platform.
 The above is merely a template.
 
 To log in to the development database using `psql`:
 ```
-psql -U pg -h localhost -d development
+psql -U vagrant -h localhost -d vagrant_development
 ```
-Simply replace `development` with `test` for the test database.
+Simply replace `vagrant_development` with `vagrant_test` for the test database.
 
 (Note: Unfortunately,
 the database user has to have Postgres superuser privileges,
 because Rails disables integrity constraints while loading fixtures,
 and only the Postgres superuser can disable integrity constraints.)
+
+(Earlier versions of this box used the user name and password `pg`. This box comes with the `pg` role also configured, to maintain backwards compatibility with applications that have a `database.yml` the uses `pg`.)
 
 # Create a New Jekyll Site with this Base Box
 ```
@@ -177,19 +155,7 @@ sudo systemctl start redis
 ```
 
 # Upgrading a Box
-This box is still relatively new,
-and we're adding features all the time.
-Also, Rails versions change.
-You may want to upgrade the machine on your workstation
-from time to time.
-
-Note: Upgrading the box destroys any changes you've made
-to the machine,
-e.g. installing additional packages,
-and Postgres databases.
-However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory
-(the directory shared with your workstation).
-Your Rails, Jekyll, and other projects are not touched.
+If you want to upgrade the machine on your workstation note that upgrading the box destroys any changes you've made to the machine, e.g. additional packages installed, Redis enabled to start automatically, and Postgres databases. However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory (the directory shared with your workstation). In particular, SQLite databases will be preserved. Your Rails, Jekyll, and other projects are not touched.
 
 ## Get the Updated Box
 First, check to see whether there's a new version of the box available:
@@ -243,11 +209,10 @@ rails db:setup
 ```
 
 # Running Legacy Rails Applications
-Here are some notes if you want to run older Rails applications
-in this box.
+Here are some notes if you want to run older Rails applications in this box.
 
 ## `rbenv` or `rvm`
-You should use the either `rbenv`,
+You should use either `rbenv`,
 or `rvm`.
 Both are good tools for managing multiple versions of Ruby
 on the same computer.
@@ -262,6 +227,8 @@ We prefer `rbenv`,
 so the rest of this documentation describes specific `rbenv` commands
 you will need to execute,
 once you've installed `rbenv`.
+
+Note that there isn't enough disk space on this box to have many versions of Ruby.
 
 ### Manually Install Bundler
 It appears to be very important that you install Bundler manually
@@ -318,7 +285,6 @@ You can set the time to sync by entering this in the Vagrant box:
 ```
 sudo VBoxService --timesync-set-start
 ```
-I tried a more permanent solution, but I haven't used it long enough to know if it works.
 First, get the name of the Vagrant box by entering this on the host:
 ```
 VBoxManage list vms
@@ -329,6 +295,9 @@ VBoxManage guestproperty set guest_machine_name --timesync-set-on-restore 1
 ```
 
 ## pg User, Fixtures, and Foreign Key Constraints
+Earlier versions of this box didn't create the `pg` user correctly.
+You shouldn't run into this problem with boxes after v0.5.0.
+
 When you upgrade the box, you lose the Postgres database.
 If the `pg` user isn't created with the right privileges,
 then you will get a lot of error messages like:
@@ -344,9 +313,6 @@ sudo -u postgres psql -c "drop role pg;"
 sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
 rails db:setup
 ```
-Earlier versions of this box didn't create the `pg` user correctly.
-You shouldn't run into this problem with boxes after v0.5.0.
-
 ## Old Versions of these Boxes
 Versions of this box before v0.3.0
 have a lot of rough edges,
