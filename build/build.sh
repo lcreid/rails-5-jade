@@ -54,7 +54,9 @@ sudo apt-get install -y -q yarn
 # Install Postgres
 sudo apt-get install -y -q postgresql postgresql-server-dev-all
 sudo gem install pg --no-document
+# Leave the `pg` role for backwards compatibility.
 sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
+sudo -u postgres psql -c "create role vagrant with superuser createdb login password 'vagrant';"
 # Install Redis
 sudo apt-get install -y -q redis redis-tools
 # The version in the Ubuntu 16.04 repository is quite old (3.0)
