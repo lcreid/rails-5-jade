@@ -1,3 +1,10 @@
+## V4.1.0
+
+*   [#24] Create a Postgres role `vagrant` so the default Postgres `database.yml` just works.
+*   [#26] Fix Bundler version to the one we use on AWS.
+
+    *Larry Reid*
+
 ## V4.0.7
 
 *   Nothing is too trivial for me to get wrong the first time.

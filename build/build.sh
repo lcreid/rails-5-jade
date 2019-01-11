@@ -139,4 +139,6 @@ sudo apt-get upgrade -y -q
 sudo apt-get dist-upgrade -y -q
 sudo apt-get autoremove -y -q
 
+# Bundler version must match the version on the target production box.
+sudo gem install bundler -v 1.15.2 --no-document
 sudo gem install rails -v 5.2.1 --no-document
