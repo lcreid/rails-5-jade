@@ -1,3 +1,11 @@
+## V5.1.0
+
+*   [#24] Create a Postgres role `vagrant` so the default Postgres `database.yml` just works.
+*   [#26] Fix Bundler version to the last 1.x version (1.17.3).
+*   Rails 5.2.1.
+
+*Larry Reid*
+
 ## V5.0.0
 
 *   Ubuntu 18.04.

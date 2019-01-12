@@ -123,6 +123,7 @@ wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_6
 tar -xjf phantomjs-2.1.1-linux-x86_64.tar.bz2
 sudo cp -a phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
 sudo chown root:root /usr/bin/phantomjs
+rm -r phantomjs-2.1.1-linux-x86_64 phantomjs-2.1.1-linux-x86_64.tar.bz2
 sudo gem install poltergeist --no-document
 # Install support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get -y -q install graphviz
@@ -134,4 +135,6 @@ sudo apt-get upgrade -y -q
 sudo apt-get dist-upgrade -y -q
 sudo apt-get autoremove -y -q
 
-sudo gem install rails -v 5.2.0 --no-document
+# Bundler version must match the version on the target production box.
+sudo gem install bundler -v 1.17.3 --no-document
+sudo gem install rails -v 5.2.1 --no-document
