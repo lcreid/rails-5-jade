@@ -1,4 +1,12 @@
 {
+  "variables": {
+    "disk_size": "8000",
+    "iso_checksum": "a2cb36dc010d98ad9253ea5ad5a07fd6b409e3412c48f1860536970b073c98f5",
+    "iso_url": "http://cdimage.ubuntu.com/releases/18.04.2/release/ubuntu-18.04.2-server-amd64.iso",
+    "output_directory": "ubuntu-18-04-small",
+    "ram_size": "1024",
+    "vm_name": "ubuntu-18-04-small"
+  },
   "builders": [{
     "type": "virtualbox-iso",
     "boot_command": [
@@ -36,23 +44,24 @@
       "<enter>"
     ],
     "boot_wait": "4s",
-
+    "disk_size": "{{ user `disk_size` }}",
     "guest_os_type": "Ubuntu_64",
     "http_directory": "http",
-    "iso_checksum": "e8264fa4c417216f4304079bd94f895e",
-    "iso_checksum_type": "md5",
-    "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
-    "ssh_username": "vagrant",
-    "ssh_password": "vagrant",
+    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_checksum_type": "sha256",
+    "iso_url": "{{ user `iso_url` }}",
+    "output_directory": "{{ user `output_directory` }}",
+    "post_shutdown_delay": "2m",
+    "shutdown_command": "echo 'ubuntu' | sudo -S shutdown -P now",
+    "ssh_username": "ubuntu",
+    "ssh_password": "ubuntu",
     "ssh_wait_timeout": "10000s",
-    "disk_size": "8000",
-    "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
     "vboxmanage": [
       [
         "modifyvm",
         "{{.Name}}",
         "--memory",
-        "1024"
+        "{{ user `ram_size` }}"
       ],
       [
         "modifyvm",
@@ -67,21 +76,7 @@
         "--timesync-set-on-restore",
         "1"
       ]
-    ]
-  }],
-  "provisioners": [{
-      "type": "shell",
-      "script": "build.sh"
-    },
-    {
-      "type": "shell",
-      "script": "minimize.sh"
-    }
-  ],
-  "post-processors": [{
-    "type": "vagrant",
-    "only": ["virtualbox-iso"],
-    "output": "rails5-2.box",
-    "vagrantfile_template": "Vagrantfile"
+    ],
+    "vm_name": "{{ user `vm_name` }}"
   }]
 }

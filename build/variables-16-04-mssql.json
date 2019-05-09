@@ -1,0 +1,5 @@
+{
+  "provisioner": "build-16-04-mssql.sh",
+  "output": "rails-jade-16-04-mssql.box",
+  "source_path": "ubuntu-16-04-large/ubuntu-16-04-large.ovf"
+}
