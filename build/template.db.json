@@ -1,6 +1,7 @@
 {
   "variables": {
     "provisioner": "build-18-04-pg.sh",
+    "db-provisioner": "build-pg.sh",
     "output": "rails-jade-18-04-pg.box",
     "source_path": "ubuntu-18-04-small/ubuntu-18-04-small.ovf"
   },
@@ -24,7 +25,11 @@
     },
     {
       "type": "shell",
-      "script": "build-pg.sh"
+      "script": "{{ user `db-provisioner` }}"
+    },
+    {
+      "type": "shell",
+      "script": "cleanup.sh"
     },
     {
       "type": "shell",
