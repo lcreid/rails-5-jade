@@ -1,10 +1,10 @@
 # rails-5-jade
-A Vagrant base box with Rails 5.2 with Jekyll and Node on Ubuntu 18.04.
+A Vagrant base box with Rails 6.0 with Jekyll and Node on Ubuntu 18.04.
 
 This base box currently includes:
 
 * Ubuntu 18.04.2
-* Rails 5.2.2
+* Rails 6.0.0
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database)
 * Redis (Version TBD)
@@ -12,8 +12,6 @@ This base box currently includes:
 * PhantomJS, because we used to use Capybara with Poltergeist for integration/acceptance testing. PhantomJS has been abandoned now that headless Chrome has arrived, so PhantomJS and Poltergeist will eventually be removed
 * Graphviz, so we can use Rails ERD to generate documentation
 * Node 8, for Node development, and for the Rails asset pipeline
-* `rbenv`, although you don't have to use either `rvm` or `rbenv`
-when using this box
 
 Note that this base box just installs the components in the operating system.
 You're free to use as many or as few as you want.
@@ -29,7 +27,7 @@ if you want to use Postgres.
 This is a standard Vagrant box. First you need to initialize the directory where you want the Vagrant box to reside:
 
 ```bash
-vagrant init jadesystems/rails-5
+vagrant init jadesystems/rails-jade
 ```
 
 Then you can start the virtual machine and ssh into it:
@@ -47,16 +45,18 @@ vagrant ssh -- -A
 Unless otherwise specified, all the following documentation assumes you're `ssh`d into the vagrant box.
 
 # Create a New Rails App with this Base Box
+
 ```
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-5-2
+vagrant init jadesystems/rails-jade
 vagrant up
 vagrant ssh
 cd /vagrant
 rails new . --database=postgresql --skip-coffee
 echo ".vagrant" >>.gitignore
 ```
+
 Note the last line,
 which will avoid putting a bunch of Vagrant's control information
 into your repository.
@@ -81,6 +81,7 @@ This change ensures that the Rails server sees file changes
 in the Vagrant shared directory.
 
 # Starting Rails Server
+
 On the vagrant box:
 
 ```bash
@@ -93,6 +94,7 @@ The output from the `rails server` will appear mixed in
 with anything else you do in that terminal.
 
 # Using Postgres with Rails
+
 To use Postgres, you have to add the Postgres gem to your `Gemfile`. Add these lines to your `Gemfile`:
 
 ```ruby
@@ -118,6 +120,7 @@ Use a better password for production systems, or any system accessible from a ne
 You can, of course, change the database owner or password. You have to:
 
 * Create a role in Postgres with database superuser privileges, using the "create role" command
+
     ```bash
     sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
     ```
@@ -148,7 +151,7 @@ and only the Postgres superuser can disable integrity constraints.)
 ```bash
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-5-2
+vagrant init jadesystems/rails-jade
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -163,6 +166,7 @@ It's unnecessary to put Vagrant's control information into the repository,
 and may cause others to have problems when starting the Vagrant machine on their workstation.
 
 # Starting the Jekyll Server
+
 On the vagrant box:
 
 ```bash
@@ -175,6 +179,7 @@ The output from the `jekyll serve` will appear mixed in
 with anything else you do in that terminal.
 
 # Redis
+
 If you need Redis,
 this box has a recent stable version of Redis.
 However, it's not set up to start automatically.
@@ -192,9 +197,11 @@ sudo systemctl start redis
 ```
 
 # Upgrading a Box
+
 If you want to upgrade the machine on your workstation note that upgrading the box destroys any changes you've made to the machine, e.g. additional packages installed, Redis enabled to start automatically, and Postgres databases. However, upgrading _doesn't_ touch anything in the machine's `/vagrant` directory (the directory shared with your workstation). In particular, SQLite databases will be preserved. Your Rails, Jekyll, and other projects are not touched.
 
 ## Get the Updated Box
+
 First, check to see whether there's a new version of the box available:
 
 ```bash
@@ -212,6 +219,7 @@ vagrant box update
 ```
 
 ## Update Your Local Machines
+
 Once you've updated the local cache,
 you can update a specific machine.
 This does affect the machine,
@@ -244,6 +252,7 @@ The message is printed whether or not the package is installed.
 GraphViz is installed on this box.
 
 ## Postgres After Update
+
 The Postgres database is on the base box file system only,
 so you have to recreate the Postgres database
 after upgrading the box.
@@ -256,9 +265,11 @@ rails db:setup
 ```
 
 # Running Legacy Rails Applications
+
 Here are some notes if you want to run older Rails applications in this box.
 
 ## `rbenv` or `rvm`
+
 You should use either `rbenv`,
 or `rvm`.
 Both are good tools for managing multiple versions of Ruby
@@ -277,22 +288,8 @@ once you've installed `rbenv`.
 
 Note that there isn't enough disk space on this box to have many versions of Ruby.
 
-### Manually Install Bundler
-It appears to be very important that you install Bundler manually
-before you install your application's gems:
-
-```bash
-gem install bundler
-```
-
-Reminder: As with any new development instance,
-you need to run Bundler before testing or running the application:
-
-```bash
-bundle install
-```
-
 ### Install the Right Ruby Version
+
 If you haven't used `rbenv` with your Rails application,
 you need to figure out which version of Ruby your application runs on.
 Once you've done that, run the following
@@ -315,6 +312,7 @@ rbenv rehash
 ```
 
 ## MySQL
+
 If your legacy application uses MySQL,
 you have to install the MySQL development library
 before you install or bundle the gems:
@@ -326,6 +324,7 @@ sudo apt-get install libmysqlclient-dev
 # Troubleshooting
 
 ## Time
+
 Time synchronization on the Vagrant box seems to fail sometimes.
 This can lead to Rails not recognizing changes to files,
 so you'll fix something,
@@ -354,6 +353,7 @@ VBoxManage guestproperty set guest_machine_name --timesync-set-on-restore 1
 ```
 
 ## pg User, Fixtures, and Foreign Key Constraints
+
 Earlier versions of this box didn't create the `pg` user correctly.
 You shouldn't run into this problem with boxes after v0.5.0.
 
@@ -377,6 +377,7 @@ rails db:setup
 ```
 
 ## Old Versions of these Boxes
+
 Versions of this box before v0.3.0
 have a lot of rough edges,
 including Vagrantfiles that aren't really correct.
@@ -411,6 +412,7 @@ the [Vagrant documentation](https://www.vagrantup.com/docs/)
 will be very helpful if you're trying to figure out a problem.
 
 ## Legacy Rails Applications
+
 I got messages like this when I ran `rake test`:
 
 ```bash

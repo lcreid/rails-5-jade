@@ -3,9 +3,9 @@
     "disk_size": "8000",
     "iso_checksum": "a2cb36dc010d98ad9253ea5ad5a07fd6b409e3412c48f1860536970b073c98f5",
     "iso_url": "http://cdimage.ubuntu.com/releases/18.04.2/release/ubuntu-18.04.2-server-amd64.iso",
-    "output_directory": "ubuntu-18-04-small",
+    "output_directory": "ubuntu-18-04/small/vm",
     "ram_size": "1024",
-    "vm_name": "ubuntu-18-04-small"
+    "vm_name": "rails-jade"
   },
   "builders": [{
     "type": "virtualbox-iso",
@@ -51,7 +51,7 @@
     "iso_checksum_type": "sha256",
     "iso_url": "{{ user `iso_url` }}",
     "output_directory": "{{ user `output_directory` }}",
-    "post_shutdown_delay": "2m",
+    "post_shutdown_delay": "30s",
     "shutdown_command": "echo 'ubuntu' | sudo -S shutdown -P now",
     "ssh_username": "ubuntu",
     "ssh_password": "ubuntu",

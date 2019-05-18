@@ -2,7 +2,7 @@
   "disk_size": "10000",
   "iso_checksum": "a2cb36dc010d98ad9253ea5ad5a07fd6b409e3412c48f1860536970b073c98f5",
   "iso_url": "http://cdimage.ubuntu.com/releases/18.04.2/release/ubuntu-18.04.2-server-amd64.iso",
-  "output_directory": "ubuntu-18-04-large",
+  "output_directory": "ubuntu-18-04/large/vm",
   "ram_size": "4096",
-  "vm_name": "ubuntu-18-04-large"
+  "vm_name": "rails-jade"
 }

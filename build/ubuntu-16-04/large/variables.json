@@ -2,7 +2,7 @@
   "disk_size": "10000",
   "iso_checksum": "16afb1375372c57471ea5e29803a89a5a6bd1f6aabea2e5e34ac1ab7eb9786ac",
   "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso",
-  "output_directory": "ubuntu-16-04-large",
+  "output_directory": "ubuntu-16-04/large/vm",
   "ram_size": "4096",
-  "vm_name": "ubuntu-16-04-large"
+  "vm_name": "rails-jade"
 }

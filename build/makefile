@@ -1,25 +1,33 @@
-all: rails-jade-16-04-mssql.box rails-jade-18-04-mssql.box rails-jade-16-04-pg.box rails-jade-18-04-pg.box
+all-vagrant-dev-boxes: rails-jade-16-04-mssql.box \
+	rails-jade-18-04-mssql.box \
+	rails-jade-16-04-pg.box \
+	rails-jade-18-04-pg.box
 
-rails-jade-16-04-mssql.box: ubuntu-16-04-large/ubuntu-16-04-large.ovf
+rails-jade-16-04-mssql.box: ubuntu-16-04/large/vm/rails-jade.ovf
 	packer build -force -var-file variables-16-04-mssql.json template.db.json
 
-rails-jade-18-04-mssql.box: ubuntu-18-04-large/ubuntu-18-04-large.ovf
+rails-jade-18-04-mssql.box: ubuntu-18-04/large/vm/rails-jade.ovf
 	packer build -force -var-file variables-18-04-mssql.json template.db.json
 
-rails-jade-16-04-pg.box: ubuntu-16-04-small/ubuntu-16-04-small.ovf
+rails-jade-16-04-pg.box: ubuntu-16-04/small/vm/rails-jade.ovf
 	packer build -force -var-file variables-16-04-pg.json template.db.json
 
-rails-jade-18-04-pg.box: ubuntu-18-04-small/ubuntu-18-04-small.ovf
+rails-jade-18-04-pg.box: ubuntu-18-04/small/vm/rails-jade.ovf
 	packer build -force template.db.json
 
-ubuntu-16-04-large/ubuntu-16-04-large.ovf: variables-16-04-large.json template.json
-	packer build -force -var-file variables-16-04-large.json template.json
+all-bare-images: ubuntu-16-04/large/vm/rails-jade.ovf \
+	ubuntu-16-04/small/vm/rails-jade.ovf \
+	ubuntu-18-04/large/vm/rails-jade.ovf \
+	ubuntu-18-04/small/vm/rails-jade.ovf
 
-ubuntu-18-04-large/ubuntu-18-04-large.ovf: variables-18-04-large.json template.json
-	packer build -force -var-file variables-18-04-large.json template.json
+ubuntu-16-04/large/vm/rails-jade.ovf: ubuntu-16-04/large/variables.json template.json
+	packer build -force -var-file ubuntu-16-04/large/variables.json template.json
 
-ubuntu-16-04-small/ubuntu-16-04-small.ovf: variables-16-04-small.json template.json
-	packer build -force -var-file variables-16-04-small.json template.json
+ubuntu-16-04/small/vm/rails-jade.ovf: ubuntu-16-04/small/variables.json template.json
+	packer build -force -var-file ubuntu-16-04/small/variables.json template.json
 
-ubuntu-18-04-small/ubuntu-18-04-small.ovf: template.json
+ubuntu-18-04/large/vm/rails-jade.ovf: ubuntu-18-04/large/variables.json template.json
+	packer build -force -var-file ubuntu-18-04/large/variables.json template.json
+
+ubuntu-18-04/small/vm/rails-jade.ovf: template.json
 	packer build -force template.json
