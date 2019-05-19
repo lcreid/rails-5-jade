@@ -1,14 +1,15 @@
 {
   "variables": {
-    "provisioner": "build-18-04-pg.sh",
+    "provisioner": "build.sh",
     "db-provisioner": "build-pg.sh",
     "output": "rails-jade-18-04-pg.box",
-    "source_path": "ubuntu-18-04-small/ubuntu-18-04-small.ovf"
+    "source_path": "ubuntu-18-04/small/vm"
   },
   "builders": [
     {
       "type": "virtualbox-ovf",
-      "source_path": "{{ user `source_path` }}",
+      "guest_os_type": "Ubuntu_64",
+      "source_path": "{{ user `source_path` }}/rails-jade.ovf",
       "ssh_username": "ubuntu",
       "ssh_password": "ubuntu",
       "shutdown_command": "echo 'ubuntu' | sudo -S shutdown -P now"
@@ -17,23 +18,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "update.sh"
-    },
-    {
-      "type": "shell",
-      "script": "build-vagrant.sh"
-    },
-    {
-      "type": "shell",
-      "script": "{{ user `db-provisioner` }}"
-    },
-    {
-      "type": "shell",
-      "script": "cleanup.sh"
-    },
-    {
-      "type": "shell",
-      "script": "minimize.sh"
+      "script": "{{ user `provisioner` }}"
     }
   ],
   "post-processors": [

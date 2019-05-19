@@ -1,5 +1,5 @@
 #!/bin/bash
-sleep 30
+
 set -e
 
 sudo apt-get update -y -qq
