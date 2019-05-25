@@ -442,6 +442,7 @@ wget https://github.com/lcreid/rails-5-jade/raw/master/build/build.sh
 Then type:
 
 ```bash
+chmod a+x build.sh
 ./build.sh -cns -t server
 ```
 

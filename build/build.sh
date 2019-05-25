@@ -32,7 +32,7 @@ usage() {
 EOF
 }
 
-while getopts d:o:psv x ; do
+while getopts cd:hno:st: x ; do
   case $x in
     c)  client=1;;
     d)  database=$OPTARG;;
