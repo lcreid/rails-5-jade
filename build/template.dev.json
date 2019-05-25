@@ -1,0 +1,98 @@
+{
+  "variables": {
+    "disk_size": "8000",
+    "iso_checksum": "a2cb36dc010d98ad9253ea5ad5a07fd6b409e3412c48f1860536970b073c98f5",
+    "iso_url": "http://cdimage.ubuntu.com/releases/18.04.2/release/ubuntu-18.04.2-server-amd64.iso",
+    "provisioner": "build.sh",
+    "ram_size": "1024",
+    "output": "rails-jade-18-04-pg.box"
+  },
+  "builders": [{
+    "type": "virtualbox-iso",
+    "boot_command": [
+      "<enter><f6><esc>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs>",
+      "<bs><bs><bs>",
+      "auto ",
+      "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+      "debian-installer=en_CA ",
+      "locale=en_CA ",
+      "hostname=rails-jade ",
+      "fb=false ",
+      "debconf/frontend=noninteractive ",
+      "keyboard-configuration/modelcode=SKIP ",
+      "keyboard-configuration/layout=USA ",
+      "keyboard-configuration/variant=USA ",
+      "vga=788 ",
+      "initrd=/install/initrd.gz ",
+      "quiet --- ",
+      "<enter>"
+    ],
+    "boot_wait": "4s",
+    "disk_size": "{{ user `disk_size` }}",
+    "guest_os_type": "Ubuntu_64",
+    "http_directory": "http",
+    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_checksum_type": "sha256",
+    "iso_url": "{{ user `iso_url` }}",
+    "output_directory": "{{ user `output_directory` }}",
+    "post_shutdown_delay": "30s",
+    "shutdown_command": "echo 'ubuntu' | sudo -S shutdown -P now",
+    "ssh_username": "ubuntu",
+    "ssh_password": "ubuntu",
+    "ssh_wait_timeout": "10000s",
+    "vboxmanage": [
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--memory",
+        "{{ user `ram_size` }}"
+      ],
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--cpus",
+        "1"
+      ],
+      [
+        "guestproperty",
+        "set",
+        "{{.Name}}",
+        "--timesync-set-on-restore",
+        "1"
+      ]
+    ],
+    "vm_name": "{{ user `vm_name` }}"
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "{{ user `provisioner` }}"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "only": [
+        "virtualbox-iso"
+      ],
+      "output": "{{ user `output` }}",
+      "vagrantfile_template": "Vagrantfile"
+    }
+  ]
+}

@@ -7,17 +7,17 @@ all-vagrant-dev-boxes: rails-jade-16-04-mssql.box \
 	rails-jade-16-04-pg.box \
 	rails-jade-18-04-pg.box
 
-rails-jade-16-04-mssql.box: ubuntu-16-04/large/vm/rails-jade-disk001.vmdk
-	packer build -force -var-file variables-16-04-mssql.json template.db.json
+rails-jade-16-04-mssql.box: template.dev.json build.sh
+	packer build -force -var-file variables-16-04-mssql.json template.dev.json
 
-rails-jade-18-04-mssql.box: ubuntu-18-04/large/vm/rails-jade-disk001.vmdk
-	packer build -force -var-file variables-18-04-mssql.json template.db.json
+rails-jade-18-04-mssql.box: template.dev.json build.sh
+	packer build -force -var-file variables-18-04-mssql.json template.dev.json
 
-rails-jade-16-04-pg.box: ubuntu-16-04/small/vm/rails-jade-disk001.vmdk build.sh
-	packer build -force -var-file variables-16-04-pg.json template.db.json
+rails-jade-16-04-pg.box: template.dev.json build.sh
+	packer build -force -var-file variables-16-04-pg.json template.dev.json
 
-rails-jade-18-04-pg.box: ubuntu-18-04/small/vm/rails-jade-disk001.vmdk build.sh
-	packer build -force template.db.json
+rails-jade-18-04-pg.box: template.dev.json build.sh
+	packer build -force template.dev.json
 
 all-bare-images: ubuntu-16-04/large/vm/rails-jade-disk001.vmdk \
 	ubuntu-16-04/small/vm/rails-jade-disk001.vmdk \
