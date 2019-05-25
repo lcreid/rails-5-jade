@@ -154,11 +154,11 @@ EOF
     echo To enable automatic start of Redis on system start, type:
     echo sudo systemctl enable redis
     cd ..
-    ;;
 
     # PDF Tool Kit
     # Appears not to be available on 18.04
     sudo apt-get install -y -q pdftk
+    ;;
   *)
     echo "Unknown Ubuntu version $(os_version)."
     exit 1
