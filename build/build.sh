@@ -155,6 +155,10 @@ EOF
     echo sudo systemctl enable redis
     cd ..
     ;;
+
+    # PDF Tool Kit
+    # Appears not to be available on 18.04
+    sudo apt-get install -y -q pdftk
   *)
     echo "Unknown Ubuntu version $(os_version)."
     exit 1
@@ -168,9 +172,6 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" |
   sudo tee /etc/apt/sources.list.d/yarn.list
 sudo apt-get -y -qq update
 sudo apt-get install -y -q yarn
-
-# PDF Tool Kit
-sudo apt-get install -y -q pdftk
 
 # GraphViz support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get install -y -q graphviz
@@ -195,7 +196,7 @@ fi
 
 # Bundler version must match the version on the target production box.
 sudo gem install bundler -v 2.0.1 --no-document
-sudo gem install rails -v 6.0.0 --no-document
+sudo gem install rails -v 6.0.0.rc1 --no-document
 
 # ./clean-up.sh
 sudo apt-get update -y -q
