@@ -7,13 +7,13 @@ all-vagrant-dev-boxes: rails-jade-16-04-mssql.box \
 	rails-jade-16-04-pg.box \
 	rails-jade-18-04-pg.box
 
-rails-jade-16-04-mssql.box: template.dev.json build.sh
+rails-jade-16-04-mssql.box: template.dev.json build.sh variables-16-04-mssql.json
 	packer build -force -var-file variables-16-04-mssql.json template.dev.json
 
-rails-jade-18-04-mssql.box: template.dev.json build.sh
+rails-jade-18-04-mssql.box: template.dev.json build.sh variables-18-04-mssql.json
 	packer build -force -var-file variables-18-04-mssql.json template.dev.json
 
-rails-jade-16-04-pg.box: template.dev.json build.sh
+rails-jade-16-04-pg.box: template.dev.json build.sh variables-16-04-pg.json
 	packer build -force -var-file variables-16-04-pg.json template.dev.json
 
 rails-jade-18-04-pg.box: template.dev.json build.sh

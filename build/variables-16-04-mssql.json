@@ -1,5 +1,8 @@
 {
-  "provisioner": "build-16-04-mssql.sh",
+  "build_arguments": "-d mssql -r 5.2.3",
+  "disk_size": "10000",
+  "iso_checksum": "16afb1375372c57471ea5e29803a89a5a6bd1f6aabea2e5e34ac1ab7eb9786ac",
+  "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso",
   "output": "rails-jade-16-04-mssql.box",
-  "source_path": "ubuntu-16-04-large/ubuntu-16-04-large.ovf"
+  "ram_size": "4096"
 }

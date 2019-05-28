@@ -76,11 +76,11 @@
         "--timesync-set-on-restore",
         "1"
       ]
-    ],
-    "vm_name": "{{ user `vm_name` }}"
+    ]
   }],
   "provisioners": [
     {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} {{ .Path }} {{ user `build_arguments` }}",
       "type": "shell",
       "script": "{{ user `provisioner` }}"
     }

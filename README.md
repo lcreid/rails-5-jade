@@ -460,7 +460,7 @@ The complete list of options for the build script are:
 
 ## Changes from Previous Versions
 
-* `ubuntu` user TBC
+* `ubuntu` user instead of `vagrant`
 * Build script useful for non-Vagrant builds
 * Makefile to build all versions of Vagrant boxes
 * A separate box for each database/Ubuntu version combination. No more fiddling with version numbers to get the right box for your project. *Not yet implemented* as the `Vagrantfile` has to be different

@@ -4,6 +4,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
+  config.ssh.username = "ubuntu"
   config.vm.box = "jadesystems/rails-jade-18-04-pg"
   # Create a forwarded port mapping which allows access to a specific port
   # This one is for running Rails (puma, mongrel)

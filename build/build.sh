@@ -16,29 +16,32 @@ client=0
 database=pg
 nginx=0
 os_version=$VERSION_ID
+rails_version=6.0.0.rc1
 target=vagrant
 
 usage() {
   echo "Install prerequsites for hosting Rails applications on an Ubuntu server."
   echo usage: `basename $0` [-c -d DATABASE -h -o OS_VERSION -ps -t TARGET ]
   cat <<EOF
-  -c            Client-only database (typically for production-like servers).
-  -d DATABASE   Specify database. Currently only default "pg".
-  -h            This help.
-  -n            Install Nginx and Certbot.
-  -o OS_VERSION Ubuntu major and minor version. Default: The installed version.
-  -s            Install for a server (no need to minimize size like for an appliance).
-  -t TARGET     Deploy to a target type. Default "vagrant". -t server for one-time builds.
+  -c                Client-only database (typically for production-like servers).
+  -d DATABASE       Specify database. Currently only default "pg".
+  -h                This help.
+  -n                Install Nginx and Certbot.
+  -o OS_VERSION     Ubuntu major and minor version. Default: The installed version.
+  -r RAILS_VERSION  Rails version to install.
+  -s                Install for a server (no need to minimize size like for an appliance).
+  -t TARGET         Deploy to a target type. Default "vagrant". -t server for one-time builds.
 EOF
 }
 
-while getopts cd:hno:st: x ; do
+while getopts cd:hno:r:st: x ; do
   case $x in
     c)  client=1;;
     d)  database=$OPTARG;;
     h)  usage; exit 0;;
     n)  nginx=1;;
     o)  os_version=$OPTARG;;
+    r)  rails_version=$OPTARG;;
     s)  appliance=0;;
     t)  target=$OPTARG;;
     \?) echo Invalid option: -$OPTARG
@@ -64,27 +67,84 @@ if [[ $target = vagrant ]]; then
   sudo chown -R ubuntu:ubuntu ~ubuntu/.ssh
 
   sudo apt-get install -y -q dkms virtualbox-guest-utils virtualbox-guest-dkms
+
+  # https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers
+  echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 fi
 
-if [[ $database = pg ]]; then
-  if [[ $client = 0 ]]; then
-    # ./build-pg.sh
-    # Install Postgres
-    # This script is useful for local development boxes where a rather obvious username
-    # and password are not a problem.
-    # Do not use this for database servers that will be exposed to a network.
+case $database in
+  pg)
+    if [[ $client = 0 ]]; then
+      # ./build-pg.sh
+      # Install Postgres
+      # This script is useful for local development boxes where a rather obvious username
+      # and password are not a problem.
+      # Do not use this for database servers that will be exposed to a network.
 
-    sudo apt-get install -y -q postgresql postgresql-server-dev-all
-    # Leave the `pg` and `vagrant` roles for backwards compatibility.
-    sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
-    sudo -u postgres psql -c "create role vagrant with superuser createdb login password 'vagrant';"
-    sudo -u postgres psql -c "create role ubuntu with superuser createdb login password 'ubuntu';"
-  else
-    # ./build-pg-client.sh
-    # Install postgres client only
-    sudo apt-get install -y -q postgresql-client libpq-dev
-  fi
-fi
+      sudo apt-get install -y -q postgresql postgresql-server-dev-all
+      # Leave the `pg` and `vagrant` roles for backwards compatibility.
+      sudo -u postgres psql -c "create role pg with superuser createdb login password 'pg';"
+      sudo -u postgres psql -c "create role vagrant with superuser createdb login password 'vagrant';"
+      sudo -u postgres psql -c "create role ubuntu with superuser createdb login password 'ubuntu';"
+    else
+      # ./build-pg-client.sh
+      # Install postgres client only
+      sudo apt-get install -y -q postgresql-client libpq-dev
+    fi
+    ;;
+  mssql)
+    # https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-ubuntu
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+    # Client
+    # Needs the keys obtained for server
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"
+    sudo apt-get -y -q update
+    ACCEPT_EULA=y DEBIAN_FRONTEND=noninteractive sudo -E apt-get install -y -q --no-install-recommends mssql-tools unixodbc-dev
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+    # `rails dbconsole` uses `sqsh`
+    sudo apt-get install -y -q sqsh
+
+    if [[ $client = 0 ]]; then
+      # Server
+      sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2017.list)"
+      sudo apt-get -y -q update
+      # Choose developer edition
+      sudo apt-get install -y -q mssql-server
+      # https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-configure-environment-variables
+      ACCEPT_EULA=y MSSQL_PID=Developer MSSQL_LCID=1033 MSSQL_SA_PASSWORD="MSSQLadmin!" sudo -E /opt/mssql/bin/mssql-conf setup
+      sudo systemctl restart mssql-server.service
+
+      # Since this is for development and test databases, we don't want the log files
+      # to grow forever. Setting the model database sets all databases subsequently
+      # created on this server.
+      # sqlcmd comes from the client tools, so they have to be installed first.
+      /opt/mssql-tools/bin/sqlcmd -U sa -P MSSQLadmin! <<-CONFIG_DB
+      alter database model set recovery simple;
+      go
+CONFIG_DB
+    fi
+
+    # Tiny TDS
+    # https://github.com/rails-sqlserver/tiny_tds#install
+    sudo apt-get install -y -q build-essential
+    sudo apt-get install -y -q libc6-dev
+
+    wget https://www.freetds.org/files/stable/freetds-1.1.6.tar.gz
+    tar -xzf freetds-1.1.6.tar.gz
+    cd freetds-1.1.6
+    ./configure --prefix=/usr/local --with-tdsver=7.3
+    make
+    sudo make install
+    cd -
+
+    # Without this one gets libsybdb.so.5: cannot open shared object file: No such file or directory - /var/www/dashboard/html/shared/bundle/ruby/2.3.0/gems/tiny_tds-2.1.1/lib/tiny_tds/tiny_tds.so (LoadError)
+    sudo ldconfig /usr/local/lib
+    ;;
+  *) echo "Unknown database $(database)."
+    ;;
+esac
 
 # ./build-jekyll.sh
 sudo gem install jekyll --no-document
@@ -194,9 +254,26 @@ if [[ $nginx = 1 ]]; then
   # End set-up for TLS
 fi
 
+# Chrome
+# A bit of a misnomer to say it's for a non-client deploy. Need to name
+# some of the parameters better.
+if [[ $client = 0 ]]; then
+  # Install Chrome because the world is moving to headless Chrome.
+  # From: https://askubuntu.com/a/510186/264753
+  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add
+  echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+  sudo apt-get -y -q update
+  sudo apt-get -y -q install google-chrome-stable
+
+  # Need the following if you're going to build webkit for Capybara
+  sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb
+fi
+
 # Bundler version must match the version on the target production box.
+# Need both versions during the transition to Bundler 2.
+sudo gem install bundler -v 1.17.3 --no-document
 sudo gem install bundler -v 2.0.1 --no-document
-sudo gem install rails -v 6.0.0.rc1 --no-document
+sudo gem install rails -v $rails_version --no-document
 
 # ./clean-up.sh
 sudo apt-get update -y -q

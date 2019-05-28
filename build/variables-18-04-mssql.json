@@ -1,4 +1,6 @@
 {
+  "build_arguments": "-d mssql",
+  "disk_size": "10000",
   "output": "rails-jade-18-04-mssql.box",
-  "source_path": "ubuntu-18-04-large/ubuntu-18-04-large.ovf"
+  "ram_size": "4096"
 }
