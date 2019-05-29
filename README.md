@@ -90,7 +90,7 @@ On the Vagrant box:
 
 ```bash
 cd /vagrant
-rails server -b 0.0.0.0
+rails server --binding 0.0.0.0
 ```
 
 You can append `&` to the line to run in the background.
