@@ -6,3 +6,6 @@ output-virtualbox-iso/
 jkl/
 ror/
 vm/
+Vagrantfile*
+!Vagrantfile.header
+!Vagrantfile.template
