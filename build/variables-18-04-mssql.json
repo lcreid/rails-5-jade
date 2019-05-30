@@ -2,5 +2,6 @@
   "build_arguments": "-d mssql",
   "disk_size": "10000",
   "output": "rails-jade-18-04-mssql.box",
-  "ram_size": "4096"
+  "ram_size": "4096",
+  "vagrantfile": "Vagrantfile.18.04.mssql"
 }

@@ -7,35 +7,35 @@ all-vagrant-dev-boxes: rails-jade-16-04-mssql.box \
 	rails-jade-16-04-pg.box \
 	rails-jade-18-04-pg.box
 
-rails-jade-16-04-mssql.box: template.dev.json build.sh variables-16-04-mssql.json
+rails-jade-16-04-mssql.box: template.dev.json build.sh variables-16-04-mssql.json Vagrantfile.16.04.mssql
 	packer build -force -var-file variables-16-04-mssql.json template.dev.json
 
-rails-jade-18-04-mssql.box: template.dev.json build.sh variables-18-04-mssql.json
+rails-jade-18-04-mssql.box: template.dev.json build.sh variables-18-04-mssql.json Vagrantfile.18.04.mssql
 	packer build -force -var-file variables-18-04-mssql.json template.dev.json
 
-rails-jade-16-04-pg.box: template.dev.json build.sh variables-16-04-pg.json
+rails-jade-16-04-pg.box: template.dev.json build.sh variables-16-04-pg.json Vagrantfile.16.04.pg
 	packer build -force -var-file variables-16-04-pg.json template.dev.json
 
-rails-jade-18-04-pg.box: template.dev.json build.sh
+rails-jade-18-04-pg.box: template.dev.json build.sh Vagrantfile.18.04.pg
 	packer build -force template.dev.json
 
-all-bare-images: ubuntu-16-04/large/vm/rails-jade-disk001.vmdk \
-	ubuntu-16-04/small/vm/rails-jade-disk001.vmdk \
-	ubuntu-18-04/large/vm/rails-jade-disk001.vmdk \
-	ubuntu-18-04/small/vm/rails-jade-disk001.vmdk
+vagrantfiles: Vagrantfile.18.04.pg Vagrantfile.16.04.pg Vagrantfile.18.04.mssql Vagrantfile.16.04.mssql
 
-ubuntu-16-04/large/vm/rails-jade-disk001.vmdk: ubuntu-16-04/large/variables.json template.json
-	packer build -force -var-file ubuntu-16-04/large/variables.json template.json
+Vagrantfile.18.04.pg: Vagrantfile.template Vagrantfile.header
+	cat Vagrantfile.header Vagrantfile.template | sed -e 's;config.vm.box = "BOX_NAME";config.vm.box = "jadesystems/rails-jade-18-04-pg";' >$@
 
-ubuntu-16-04/small/vm/rails-jade-disk001.vmdk: ubuntu-16-04/small/variables.json template.json
-	packer build -force -var-file ubuntu-16-04/small/variables.json template.json
+Vagrantfile.16.04.pg: Vagrantfile.template Vagrantfile.header
+	cat Vagrantfile.header Vagrantfile.template | sed -e 's;config.vm.box = "BOX_NAME";config.vm.box = "jadesystems/rails-jade-16-04-pg";' >$@
 
-ubuntu-18-04/large/vm/rails-jade-disk001.vmdk: ubuntu-18-04/large/variables.json template.json
-	packer build -force -var-file ubuntu-18-04/large/variables.json template.json
+Vagrantfile.18.04.mssql: Vagrantfile.template Vagrantfile.header
+	cat Vagrantfile.header Vagrantfile.template | sed -e 's;config.vm.box = "BOX_NAME";config.vm.box = "jadesystems/rails-jade-18-04-mssql";' >$@
 
-ubuntu-18-04/small/vm/rails-jade-disk001.vmdk: template.json
-	packer build -force template.json
+Vagrantfile.16.04.mssql: Vagrantfile.template Vagrantfile.header
+	cat Vagrantfile.header Vagrantfile.template | sed -e 's;config.vm.box = "BOX_NAME";config.vm.box = "jadesystems/rails-jade-16-04-mssql";' >$@
 
-clean:
-	rm -r ubuntu-18-04/small/vm
+clean: Vagrantfile.18.04.pg \
+	Vagrantfile.16.04.pg \
+	Vagrantfile.18.04.mssql \
+	Vagrantfile.16.04.mssql
+	rm $?
 	

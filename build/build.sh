@@ -93,33 +93,41 @@ case $database in
     fi
     ;;
   mssql)
+    # So far, it looks like only the Microsoft stuff needs this:
+    sudo apt-get install -y -q apt-transport-https
+
+    # echo "Installing Microsoft key"
     # https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-ubuntu
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 
+    # echo "Installing MS SQL Client"
     # Client
-    # Needs the keys obtained for server
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    # Apparently the repository name hasn't changed
     sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"
     sudo apt-get -y -q update
     ACCEPT_EULA=y DEBIAN_FRONTEND=noninteractive sudo -E apt-get install -y -q --no-install-recommends mssql-tools unixodbc-dev
-    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+    # echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
     # `rails dbconsole` uses `sqsh`
     sudo apt-get install -y -q sqsh
 
     if [[ $client = 0 ]]; then
+      # echo "Installing MS SQL Server"
       # Server
+      # Apparently the repository name hasn't changed
       sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2017.list)"
       sudo apt-get -y -q update
       # Choose developer edition
       sudo apt-get install -y -q mssql-server
       # https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-configure-environment-variables
       ACCEPT_EULA=y MSSQL_PID=Developer MSSQL_LCID=1033 MSSQL_SA_PASSWORD="MSSQLadmin!" sudo -E /opt/mssql/bin/mssql-conf setup
+      # echo "Starting MS SQL Server"
       sudo systemctl restart mssql-server.service
 
       # Since this is for development and test databases, we don't want the log files
       # to grow forever. Setting the model database sets all databases subsequently
       # created on this server.
       # sqlcmd comes from the client tools, so they have to be installed first.
+      # echo "Configuring Logs on MS SQL Server"
       /opt/mssql-tools/bin/sqlcmd -U sa -P MSSQLadmin! <<-CONFIG_DB
       alter database model set recovery simple;
       go
@@ -128,9 +136,11 @@ CONFIG_DB
 
     # Tiny TDS
     # https://github.com/rails-sqlserver/tiny_tds#install
+    # echo "Installing Tiny TDS"
     sudo apt-get install -y -q build-essential
     sudo apt-get install -y -q libc6-dev
 
+    # echo "Installing Free TDS"
     wget https://www.freetds.org/files/stable/freetds-1.1.6.tar.gz
     tar -xzf freetds-1.1.6.tar.gz
     cd freetds-1.1.6
@@ -138,9 +148,12 @@ CONFIG_DB
     make
     sudo make install
     cd -
+    # echo "Done Installing Free TDS"
 
     # Without this one gets libsybdb.so.5: cannot open shared object file: No such file or directory - /var/www/dashboard/html/shared/bundle/ruby/2.3.0/gems/tiny_tds-2.1.1/lib/tiny_tds/tiny_tds.so (LoadError)
+    # echo "ldconfig"
     sudo ldconfig /usr/local/lib
+    # echo "done ldconfig"
     ;;
   *) echo "Unknown database $(database)."
     ;;
@@ -239,11 +252,11 @@ sudo apt-get install -y -q graphviz
 # Sendmail
 sudo apt-get install -y -q sendmail
 
-# Nginx
-# Includes Certbot
 if [[ $nginx = 1 ]]; then
+  # Nginx
   sudo apt-get install -y -q nginx
 
+  # Certbot
   # Set up for TLS (SSL) by installing certbot
   # https://certbot.eff.org/#ubuntuxenial-nginx
   # Uses Let's Encrypt certificates

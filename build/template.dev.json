@@ -5,7 +5,8 @@
     "iso_url": "http://cdimage.ubuntu.com/releases/18.04.2/release/ubuntu-18.04.2-server-amd64.iso",
     "provisioner": "build.sh",
     "ram_size": "1024",
-    "output": "rails-jade-18-04-pg.box"
+    "output": "rails-jade-18-04-pg.box",
+    "vagrantfile": "Vagrantfile.18.04.pg"
   },
   "builders": [{
     "type": "virtualbox-iso",
@@ -92,7 +93,7 @@
         "virtualbox-iso"
       ],
       "output": "{{ user `output` }}",
-      "vagrantfile_template": "Vagrantfile"
+      "vagrantfile_template": "{{ user `vagrantfile` }}"
     }
   ]
 }
