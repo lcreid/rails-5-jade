@@ -249,9 +249,6 @@ sudo apt-get install -y -q yarn
 # GraphViz support for Rails ERD http://voormedia.github.io/rails-erd/install.html
 sudo apt-get install -y -q graphviz
 
-# Sendmail
-sudo apt-get install -y -q sendmail
-
 if [[ $nginx = 1 ]]; then
   # Nginx
   sudo apt-get install -y -q nginx
