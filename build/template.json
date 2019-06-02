@@ -3,9 +3,10 @@
     "disk_size": "8000",
     "iso_checksum": "a2cb36dc010d98ad9253ea5ad5a07fd6b409e3412c48f1860536970b073c98f5",
     "iso_url": "http://cdimage.ubuntu.com/releases/18.04.2/release/ubuntu-18.04.2-server-amd64.iso",
-    "output_directory": "ubuntu-18-04/small/vm",
+    "provisioner": "build.sh",
     "ram_size": "1024",
-    "vm_name": "rails-jade"
+    "output": "rails-jade-18-04-pg.box",
+    "vagrantfile": "Vagrantfile.18.04.pg"
   },
   "builders": [{
     "type": "virtualbox-iso",
@@ -32,7 +33,7 @@
       "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
       "debian-installer=en_CA ",
       "locale=en_CA ",
-      "hostname=rails-5-2 ",
+      "hostname=rails-jade ",
       "fb=false ",
       "debconf/frontend=noninteractive ",
       "keyboard-configuration/modelcode=SKIP ",
@@ -76,7 +77,23 @@
         "--timesync-set-on-restore",
         "1"
       ]
-    ],
-    "vm_name": "{{ user `vm_name` }}"
-  }]
+    ]
+  }],
+  "provisioners": [
+    {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} {{ .Path }} {{ user `build_arguments` }}",
+      "type": "shell",
+      "script": "{{ user `provisioner` }}"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "only": [
+        "virtualbox-iso"
+      ],
+      "output": "{{ user `output` }}",
+      "vagrantfile_template": "{{ user `vagrantfile` }}"
+    }
+  ]
 }
