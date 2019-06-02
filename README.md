@@ -1,8 +1,13 @@
 # rails-5-jade
 
-A Vagrant base box with Rails 6.0 with Jekyll and Node on Ubuntu 18.04.
+A Vagrant box with Rails, Jekyll, and Node on Ubuntu (16.04 or 18.04).
 
-This branch contains a significantly change in implementation of the Vagrant box.
+This version contains a significant change in implementation of the Vagrant box. It now builds:
+
+* Rails 6, Ubuntu 18.04, Postgres
+* Rails 5, Ubuntu 16.04, Postgres
+* Rails 6, Ubuntu 18.04, MS SQL Server 2017
+* Rails 5, Ubuntu 16.04, MS SQL Server 2017
 
 This repo also provides a Bash script to build an image that matches the Vagrant base box, so you can deploy with confidence to staging and production servers. See [Building Servers to Match the Vagrant Box](building-servers-to-match-the-vagrant-box) for details on that script.
 
@@ -11,8 +16,8 @@ This base box currently includes:
 * Ubuntu 18.04.2
 * Rails 6.0.0
 * Jekyll, because it's what you need for Github Pages
-* Postgres, because that's our standard database (and Heroku's standard Rails database)
-* Redis (Version TBD)
+* Postgres, because that's our standard database (and Heroku's standard Rails database), or MS SQL Server, because enterprise customers often like MS SQL Server
+* Redis (3 for 16.04, TBD for 18.04)
 * Chrome, because it now has a headless option
 * Graphviz, so we can use Rails ERD to generate documentation
 * Node 8, for Node development, and for the Rails asset pipeline
@@ -23,17 +28,17 @@ Also, you still have to configure your `Gemfile`
 or other configuration files
 to use the components.
 For example,
-you may have to configure `config/database.yml` to use Postgres,
-if you want to use Postgres.
+you may have to configure `config/database.yml` to use MS SQL Server,
+if you want to use MS SQL Server.
 
 ## Getting Started
 
-First you need to initialize the directory where you want the Vagrant box to reside. Typically, you'll do that in a new directory, but you don't have to. The following example shows what to do if you want to put the Vagrant box in a new directory called `new-project`:
+First you need to initialize the directory where you want the Vagrant box to reside. Typically, you'll do that in a new directory, but you don't have to. The following example shows what to do if you want to put the Vagrant box with Ubuntu 18.04 and Postgres in a new directory called `new-project`:
 
 ```bash
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-jade
+vagrant init jadesystems/rails-jade-18-04-pg.box
 ```
 
 Then you can start the virtual machine and ssh into it:
@@ -48,12 +53,20 @@ A useful trick for many use cases of this box is to forward the requests for ssh
 vagrant ssh -- -A
 ```
 
+To create one of the other variants of this box, use the follow `vagrant init` commands:
+
+```bash
+vagrant init jadesystems/rails-jade-16-04-pg.box
+vagrant init jadesystems/rails-jade-16-04-mssql.box
+vagrant init jadesystems/rails-jade-18-04-mssql.box
+```
+
 ## Create a New Rails App with this Base Box
 
 ```bash
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-jade
+vagrant init jadesystems/rails-jade-18-04-pg.box
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -157,7 +170,7 @@ and only the Postgres superuser can disable integrity constraints.)
 ```bash
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-jade
+vagrant init jadesystems/rails-jade-18-04-pg.box
 vagrant up
 vagrant ssh
 cd /vagrant
@@ -458,12 +471,25 @@ The complete list of options for the build script are:
 -s            Install for a server (no need to minimize size like for an appliance).  
 -t TARGET     Deploy to a target type. Default "vagrant". -t server for one-time builds.  
 
+## Customization
+
+### Server Start-Up
+
+If you're tired of typing `-b 0.0.0.0` with `rails s`, you can add the following line to the `config/puma.rb` file
+(https://stackoverflow.com/a/55927355/3109926):
+
+```ruby
+set_default_host '0.0.0.0' if ENV.fetch("RAILS_ENV") { "development" }
+```
+
+Make sure the above line appears before defining the port (`port ENV.fetch("PORT") { 3000 }`).
+
 ## Changes from Previous Versions
 
 * `ubuntu` user instead of `vagrant`
 * Build script useful for non-Vagrant builds
 * Makefile to build all versions of Vagrant boxes
-* A separate box for each database/Ubuntu version combination. No more fiddling with version numbers to get the right box for your project. *Not yet implemented* as the `Vagrantfile` has to be different
+* A separate box for each database/Ubuntu version combination. No more fiddling with version numbers to get the right box for your project
 * *Not yet implemented* host name shows something more useful
 
 ### Background

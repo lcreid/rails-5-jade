@@ -1,10 +1,39 @@
+## [Pending Release][]
+
+### Breaking changes
+
+* Your contribution here!
+
+### New features
+
+* Your contribution here!
+
+### Bugfixes
+
+* Your contribution here!
+
+## [6.0.0][] (2019-03-08)
+
+### Breaking changes
+
+* [#30] New box names. This requires update to `Vagrantfile`
+
+### New features
+
+* [#508] Support `rich_text_area` AKA the Trix editor on Rails 6+.
+* New changelog format.
+
+### Bugfixes
+
+* [#522](https://github.com/bootstrap-ruby/bootstrap_form/pull/522): Clean up rubocop offences - [@simmerz](https://github.com/simmerz)
+
 ## V5.1.0
 
 *   [#24] Create a Postgres role `vagrant` so the default Postgres `database.yml` just works.
 *   [#26] Fix Bundler version to the last 1.x version (1.17.3).
 *   Rails 5.2.1.
 
-*Larry Reid*
+    *Larry Reid*
 
 ## V5.0.0
 
@@ -106,3 +135,6 @@
 *   Update Ubuntu after build
 
     *Larry Reid*
+
+[Pending Release]: https://github.com/bootstrap-ruby/bootstrap_form/compare/v6.0.0...HEAD
+[6.0.0]: https://github.com/bootstrap-ruby/bootstrap_form/compare/v5.1.0...v6.0.0
