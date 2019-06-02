@@ -21,4 +21,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "1024"
   end
+  # Set the host name of the Vagrant machine to the current directory of the host.
+  config.vm.provision "shell",
+    inline: "hostnamectl set-hostname '#{File.basename(Dir.getwd)}'"
 end
