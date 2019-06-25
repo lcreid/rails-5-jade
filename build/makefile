@@ -2,10 +2,10 @@
 # in Packer, the wisdom was to have a 30 s sleep after the image was built,
 # but before running the provisioners.
 
-BOXES = rails-jade-16-04-mssql.box \
-	rails-jade-18-04-mssql.box \
-	rails-jade-16-04-pg.box \
-	rails-jade-18-04-pg.box
+BOXES = rails-jade-16-04-mssql \
+	rails-jade-18-04-mssql \
+	rails-jade-16-04-pg \
+	rails-jade-18-04-pg
 
 all-vagrant-dev-boxes: $(BOXES)
 
@@ -25,24 +25,20 @@ vagrantfiles: Vagrantfile.18.04.pg Vagrantfile.16.04.pg Vagrantfile.18.04.mssql 
 
 Vagrantfile.16.04.mssql: Vagrantfile.template Vagrantfile.header
 	cat Vagrantfile.header Vagrantfile.template | \
-		sed -e 's;config.vm.box = "BOX_NAME";config.vm.box = "jadesystems/rails-jade-16-04-mssql";' \
-		-e 's;vb.memory = "1024";vb.memory = "4096";' >$@
+		sed -e 's;vb.memory = "1024";vb.memory = "4096";' >$@
 
 Vagrantfile.18.04.mssql: Vagrantfile.template Vagrantfile.header
 	cat Vagrantfile.header Vagrantfile.template | \
-		sed -e 's;config.vm.box = "BOX_NAME";config.vm.box = "jadesystems/rails-jade-18-04-mssql";' \
-		-e 's;vb.memory = "1024";vb.memory = "4096";' >$@
+		sed -e 's;vb.memory = "1024";vb.memory = "4096";' >$@
 
 Vagrantfile.16.04.pg: Vagrantfile.template Vagrantfile.header
-	cat Vagrantfile.header Vagrantfile.template | \
-		sed -e 's;config.vm.box = "BOX_NAME";config.vm.box = "jadesystems/rails-jade-16-04-pg";' >$@
+	cat Vagrantfile.header Vagrantfile.template >$@
 
 Vagrantfile.18.04.pg: Vagrantfile.template Vagrantfile.header
-	cat Vagrantfile.header Vagrantfile.template | \
-		sed -e 's;config.vm.box = "BOX_NAME";config.vm.box = "jadesystems/rails-jade-18-04-pg";' >$@
+	cat Vagrantfile.header Vagrantfile.template >$@
 
 .PHONY: install
-install: $(basename $(BOXES))
+install: $(BOXES)
 
 clean:
 	rm Vagrantfile.[0-9][0-9].[0-9][0-9].* *.box

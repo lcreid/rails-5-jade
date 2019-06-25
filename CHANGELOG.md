@@ -16,16 +16,13 @@
 
 ### Breaking changes
 
-* [#30] New box names. This requires update to `Vagrantfile`
+* [#30] New box names. This requires an update to your `Vagrantfile`
 
 ### New features
 
-* [#508] Support `rich_text_area` AKA the Trix editor on Rails 6+.
+* [#33] Make hostname and terminal prompt show something more informative.
+* [#30] Copy .netrc to the Vagrant box when provisioning.
 * New changelog format.
-
-### Bugfixes
-
-* [#522](https://github.com/bootstrap-ruby/bootstrap_form/pull/522): Clean up rubocop offences - [@simmerz](https://github.com/simmerz)
 
 ## V5.1.0
 

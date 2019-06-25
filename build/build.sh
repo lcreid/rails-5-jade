@@ -24,13 +24,13 @@ usage() {
   echo usage: `basename $0` [-c -d DATABASE -h -o OS_VERSION -ps -t TARGET ]
   cat <<EOF
   -c                Client-only database (typically for production-like servers).
-  -d DATABASE       Specify database. Currently only default "pg".
+  -d DATABASE       Specify database. Default "pg". Can be "mssql" or "pg".
   -h                This help.
   -n                Install Nginx and Certbot.
   -o OS_VERSION     Ubuntu major and minor version. Default: The installed version.
   -r RAILS_VERSION  Rails version to install.
   -s                Install for a server (no need to minimize size like for an appliance).
-  -t TARGET         Deploy to a target type. Default "vagrant". -t server for one-time builds.
+  -t TARGET         Deploy to a target type. Default "vagrant". Give "-t server" for server builds.
 EOF
 }
 
