@@ -464,12 +464,12 @@ The command line arguments cause the script to build only the client database to
 The complete list of options for the build script are:
 
 -c            Client-only database (typically for production-like servers).  
--d DATABASE   Specify database. Currently only default "pg".  
+-d DATABASE   Specify database. Default "pg". Can be "mssql" or "pg".
 -h            Help.  
 -n            Install Nginx and Certbot.  
 -o OS_VERSION Ubuntu major and minor version. Default: the installed version.  
 -s            Install for a server (no need to minimize size like for an appliance).  
--t TARGET     Deploy to a target type. Default "vagrant". -t server for one-time builds.  
+-t TARGET     Deploy to a target type. Default "vagrant". "-t server" for server builds.  
 
 ## Customization
 
@@ -490,7 +490,7 @@ Make sure the above line appears before defining the port (`port ENV.fetch("PORT
 * Build script useful for non-Vagrant builds
 * Makefile to build all versions of Vagrant boxes
 * A separate box for each database/Ubuntu version combination. No more fiddling with version numbers to get the right box for your project
-* *Not yet implemented* host name shows something more useful
+* Host name shows the host's directory name, so it's a bit easier to figure out which box you're in
 
 ### Background
 
