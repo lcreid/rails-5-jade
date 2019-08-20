@@ -12,6 +12,17 @@
 
 * Your contribution here!
 
+## [6.1.0][] (2019-08-19)
+
+### New features
+
+* Rails 6.0.0 for the Ubuntu 18.04 boxes.
+
+### Bugfixes
+
+* Add MS SQL executable path to PATH (this got accidentally dropped
+  in the last version).
+
 ## [6.0.0][] (2019-03-08)
 
 ### Breaking changes

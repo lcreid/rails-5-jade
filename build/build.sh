@@ -16,7 +16,7 @@ client=0
 database=pg
 nginx=0
 os_version=$VERSION_ID
-rails_version=6.0.0.rc1
+rails_version=6.0.0
 target=vagrant
 
 usage() {
@@ -55,7 +55,7 @@ shift $((OPTIND-1))
 sudo apt-get update -y -qq
 sudo apt-get install -y -q linux-headers-generic
 sudo apt-get install -y -q build-essential autogen autoconf libtool
-sudo apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q ruby sqlite3 libsqlite3-dev ruby-dev
 
 if [[ $target = vagrant ]]; then
   # ./build-vagrant.sh
@@ -106,7 +106,7 @@ case $database in
     sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"
     sudo apt-get -y -q update
     ACCEPT_EULA=y DEBIAN_FRONTEND=noninteractive sudo -E apt-get install -y -q --no-install-recommends mssql-tools unixodbc-dev
-    # echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
     # `rails dbconsole` uses `sqsh`
     sudo apt-get install -y -q sqsh
 
@@ -116,8 +116,10 @@ case $database in
       # Apparently the repository name hasn't changed
       sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2017.list)"
       sudo apt-get -y -q update
+      # Current version breaks TLS
+      sudo apt-get install -y -q mssql-server=14.0.3192.2-2
+      sudo apt-mark hold mssql-server
       # Choose developer edition
-      sudo apt-get install -y -q mssql-server
       # https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-configure-environment-variables
       ACCEPT_EULA=y MSSQL_PID=Developer MSSQL_LCID=1033 MSSQL_SA_PASSWORD="MSSQLadmin!" sudo -E /opt/mssql/bin/mssql-conf setup
       # echo "Starting MS SQL Server"

@@ -13,8 +13,7 @@ This repo also provides a Bash script to build an image that matches the Vagrant
 
 This base box currently includes:
 
-* Ubuntu 18.04.2
-* Rails 6.0.0
+* Ubuntu 18.04.3 and Rails 6.0.0, or Ubuntu 16.04.6 and Rails 5.2.3. Rails 6 has some dependencies that aren't easily satisfied by a standard Ubuntu 16.04.
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database), or MS SQL Server, because enterprise customers often like MS SQL Server
 * Redis (3 for 16.04, TBD for 18.04)
@@ -28,8 +27,7 @@ Also, you still have to configure your `Gemfile`
 or other configuration files
 to use the components.
 For example,
-you may have to configure `config/database.yml` to use MS SQL Server,
-if you want to use MS SQL Server.
+you may have to configure `config/database.yml` to use MS SQL Server.
 
 ## Getting Started
 
@@ -148,7 +146,7 @@ You can, of course, change the database owner or password. To do so:
 
 Note also that you'll have to set up the production database
 to be appropriate for your production platform.
-The above is merely a template.
+The above is merely an example.
 
 To log in to the development database using `psql`:
 
@@ -358,7 +356,7 @@ You can set the time to sync by entering this in the Vagrant box:
 sudo VBoxService --timesync-set-start
 ```
 
-First, get the name of the Vagrant box by entering this on the host:
+Some notes on the Internet suggested a permanent fix, but it didn't seem to work. For posterity, the instructions were: First, get the name of the Vagrant box by entering this on the host:
 
 ```bash
 VBoxManage list vms
@@ -394,7 +392,7 @@ sudo -u postgres psql -c "create role pg with superuser createdb login password 
 rails db:setup
 ```
 
-### Old Versions of these Boxes
+### Really Old Versions of these Boxes
 
 Versions of this box before v0.3.0
 have a lot of rough edges,
@@ -463,13 +461,13 @@ The command line arguments cause the script to build only the client database to
 
 The complete list of options for the build script are:
 
--c            Client-only database (typically for production-like servers).  
+-c            Client-only database (typically for production-like servers).
 -d DATABASE   Specify database. Default "pg". Can be "mssql" or "pg".
--h            Help.  
--n            Install Nginx and Certbot.  
--o OS_VERSION Ubuntu major and minor version. Default: the installed version.  
--s            Install for a server (no need to minimize size like for an appliance).  
--t TARGET     Deploy to a target type. Default "vagrant". "-t server" for server builds.  
+-h            Help.
+-n            Install Nginx and Certbot.
+-o OS_VERSION Ubuntu major and minor version. Default: the installed version.
+-s            Install for a server (no need to minimize size like for an appliance).
+-t TARGET     Deploy to a target type. Default "vagrant". "-t server" for server builds.
 
 ## Customization
 
