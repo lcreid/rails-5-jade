@@ -36,7 +36,7 @@ First you need to initialize the directory where you want the Vagrant box to res
 ```bash
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-jade-18-04-pg.box
+vagrant init jadesystems/rails-jade-18-04-pg
 ```
 
 Then you can start the virtual machine and ssh into it:
