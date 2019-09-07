@@ -54,9 +54,9 @@ vagrant ssh -- -A
 To create one of the other variants of this box, use the follow `vagrant init` commands:
 
 ```bash
-vagrant init jadesystems/rails-jade-16-04-pg.box
-vagrant init jadesystems/rails-jade-16-04-mssql.box
-vagrant init jadesystems/rails-jade-18-04-mssql.box
+vagrant init jadesystems/rails-jade-16-04-pg
+vagrant init jadesystems/rails-jade-16-04-mssql
+vagrant init jadesystems/rails-jade-18-04-mssql
 ```
 
 ## Create a New Rails App with this Base Box
