@@ -26,5 +26,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "file",
     source: Dir.glob(File.join(Dir.home, "[._]netrc"), File::FNM_DOTMATCH).first,
     destination: ".netrc"
-  config.vm.provision "file", source: "~/.gem/credentials", destination: ".gem/credentials"
+  config.vm.provision "file",
+    source: Dir.glob(File.join(Dir.home, ".gem", "credentials"), File::FNM_DOTMATCH).first,
+    destination: ".gem/credentials"
 end

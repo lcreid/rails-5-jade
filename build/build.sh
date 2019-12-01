@@ -14,6 +14,7 @@ set -e
 appliance=1
 client=0
 database=pg
+jekyll_version=4.0
 nginx=0
 os_version=$VERSION_ID
 rails_version=6.0.0
@@ -26,6 +27,7 @@ usage() {
   -c                Client-only database (typically for production-like servers).
   -d DATABASE       Specify database. Default "pg". Can be "mssql" or "pg".
   -h                This help.
+  -j JEKYLL_VERSION Jekyll version to install.
   -n                Install Nginx and Certbot.
   -o OS_VERSION     Ubuntu major and minor version. Default: The installed version.
   -r RAILS_VERSION  Rails version to install.
@@ -34,11 +36,12 @@ usage() {
 EOF
 }
 
-while getopts cd:hno:r:st: x ; do
+while getopts cd:hj:no:r:st: x ; do
   case $x in
     c)  client=1;;
     d)  database=$OPTARG;;
     h)  usage; exit 0;;
+    j)  jekyll_version=$OPTARG;;
     n)  nginx=1;;
     o)  os_version=$OPTARG;;
     r)  rails_version=$OPTARG;;
@@ -162,7 +165,7 @@ CONFIG_DB
 esac
 
 # ./build-jekyll.sh
-sudo gem install jekyll --no-document
+sudo gem install jekyll -v $jekyll_version --no-document
 
 # ./build-prerequisites.sh
 # Nokogiri build dependencies (from http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian)
@@ -233,6 +236,9 @@ EOF
     # PDF Tool Kit
     # Appears not to be available on 18.04
     sudo apt-get install -y -q pdftk
+
+    # Sprockets 4 needs Ruby 2.5
+    sudo gem install sprockets -v '~> 3.0'
     ;;
   *)
     echo "Unknown Ubuntu version $(os_version)."

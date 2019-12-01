@@ -12,6 +12,13 @@
 
 * Your contribution here!
 
+## [6.1.1][2019-11-24]
+
+### Bugfixes
+
+* [#38] Hopefully not block `vagrant up` on Windows hosts
+* [#39] Upgrade Chrome so system testing on newer versions of Rails works
+
 ## [6.1.0][] (2019-08-19)
 
 ### New features
