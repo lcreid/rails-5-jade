@@ -9,6 +9,8 @@ This version contains a significant change in implementation of the Vagrant box.
 * Rails 6, Ubuntu 18.04, MS SQL Server 2017
 * Rails 5, Ubuntu 16.04, MS SQL Server 2017
 
+NOTE: Issue #37 means that this box is not currently working for a Windows host and Rails 6 in the Vagrant box. Help in resolving Issue #37 would be most appreciated, as the maintainer does not have any Windows machines available to test.
+
 This repo also provides a Bash script to build an image that matches the Vagrant base box, so you can deploy with confidence to staging and production servers. See [Building Servers to Match the Vagrant Box](building-servers-to-match-the-vagrant-box) for details on that script.
 
 This base box currently includes:
@@ -36,7 +38,7 @@ First you need to initialize the directory where you want the Vagrant box to res
 ```bash
 mkdir new-project
 cd new-project
-vagrant init jadesystems/rails-jade-18-04-pg.box
+vagrant init jadesystems/rails-jade-18-04-pg
 ```
 
 Then you can start the virtual machine and ssh into it:
@@ -54,9 +56,9 @@ vagrant ssh -- -A
 To create one of the other variants of this box, use the follow `vagrant init` commands:
 
 ```bash
-vagrant init jadesystems/rails-jade-16-04-pg.box
-vagrant init jadesystems/rails-jade-16-04-mssql.box
-vagrant init jadesystems/rails-jade-18-04-mssql.box
+vagrant init jadesystems/rails-jade-16-04-pg
+vagrant init jadesystems/rails-jade-16-04-mssql
+vagrant init jadesystems/rails-jade-18-04-mssql
 ```
 
 ## Create a New Rails App with this Base Box
