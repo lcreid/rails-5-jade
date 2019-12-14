@@ -22,11 +22,19 @@ Vagrant.configure(2) do |config|
   end
   # Set the host name of the Vagrant machine to the current directory of the host.
   config.vm.provision "shell",
-    inline: "hostnamectl set-hostname '#{File.basename(Dir.getwd)}'"
-  config.vm.provision "file",
-    source: Dir.glob(File.join(Dir.home, "[._]netrc"), File::FNM_DOTMATCH).first,
-    destination: ".netrc"
-  config.vm.provision "file",
-    source: Dir.glob(File.join(Dir.home, ".gem", "credentials"), File::FNM_DOTMATCH).first,
-    destination: ".gem/credentials"
+                      inline: "hostnamectl set-hostname '#{File.basename(Dir.getwd)}'"
+
+  # You can uncomment these lines if you're running the boxes on a Linux host.
+  # They allow you to run more commands from inside the box, but with the credentials
+  # from your host workstation.
+  config.vm.provision "copy-netrc",
+                      run: "never",
+                      type: "file",
+                      source: Dir.glob(File.join(Dir.home, "[._]netrc"), File::FNM_DOTMATCH).first,
+                      destination: ".netrc"
+  config.vm.provision "copy-gem",
+                      run: "never",
+                      type: "file",
+                      source: Dir.glob(File.join(Dir.home, ".gem", "credentials"), File::FNM_DOTMATCH).first,
+                      destination: ".gem/credentials"
 end

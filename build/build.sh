@@ -17,7 +17,7 @@ database=pg
 jekyll_version=4.0
 nginx=0
 os_version=$VERSION_ID
-rails_version=6.0.0
+rails_version=6.0.2
 target=vagrant
 
 usage() {
@@ -175,13 +175,14 @@ sudo apt-get install -y -q patch zlib1g-dev liblzma-dev
 case $os_version in
   18.04)
     # Node
-    sudo apt install -y -q nodejs
+    curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+    sudo bash nodesource_setup.sh
+    sudo apt -y -q install nodejs
 
     # Redis
-    sudo apt-get install -y -q redis redis-tools
+    sudo apt install -y -q redis-server
     sudo sed -i.original \
       -e '/^supervised no/s/no/systemd/' \
-      -e '/^dir/s;.*;dir /var/lib/redis;' \
       /etc/redis/redis.conf
     ;;
   16.04)
@@ -239,6 +240,16 @@ EOF
 
     # Sprockets 4 needs Ruby 2.5
     sudo gem install sprockets -v '~> 3.0'
+    ;;
+  20.04)
+    # Node
+    sudo apt install -y -q nodejs
+
+    # Redis
+    sudo apt install -y -q redis-server
+    sudo sed -i.original \
+      -e '/^supervised no/s/no/systemd/' \
+      /etc/redis/redis.conf
     ;;
   *)
     echo "Unknown Ubuntu version $(os_version)."

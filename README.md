@@ -15,13 +15,13 @@ This repo also provides a Bash script to build an image that matches the Vagrant
 
 This base box currently includes:
 
-* Ubuntu 18.04.3 and Rails 6.0.0, or Ubuntu 16.04.6 and Rails 5.2.3. Rails 6 has some dependencies that aren't easily satisfied by a standard Ubuntu 16.04.
+* Ubuntu 18.04.3 and Rails 6.0.2, or Ubuntu 16.04.6 and Rails 5.2.3. Rails 6 has some dependencies that aren't easily satisfied by a standard Ubuntu 16.04.
 * Jekyll, because it's what you need for Github Pages
 * Postgres, because that's our standard database (and Heroku's standard Rails database), or MS SQL Server, because enterprise customers often like MS SQL Server
-* Redis (3 for 16.04, TBD for 18.04)
+* Redis (3.2.11 for 16.04, 4.0.9 or better for 18.04)
 * Chrome, because it now has a headless option
 * Graphviz, so we can use Rails ERD to generate documentation
-* Node 8, for Node development, and for the Rails asset pipeline
+* Node 10 (18.04) or Node 8 (16.04), for Node development, and for the Rails asset pipeline
 
 Note that this base box just installs the components in the operating system.
 You're free to use as many or as few as you want.
@@ -47,13 +47,24 @@ Then you can start the virtual machine and ssh into it:
 vagrant up && vagrant ssh
 ```
 
-A useful trick for many use cases of this box is to forward the requests for ssh credentials to your host machine (laptop or desktop), so you only have to maintain keys on the host. Instead of `vagrant ssh`, do:
+You can arrange to forward the requests for ssh credentials to your host machine (laptop or desktop), so you only have to maintain keys on the host. To connect to the box, do:
 
 ```bash
 vagrant ssh -- -A
 ```
 
-To create one of the other variants of this box, use the follow `vagrant init` commands:
+The above works on a Linux host for sure. It may or may not work on Windows or MacOS, depending on your host's configuration of SSH.
+
+In addition, on Linux, you can copy your `.netrc` and your gem credentials to the box, so you can upload a gem from within the box.
+One time only, bring up the box with:
+
+```bash
+vagrant up --provision-with copy-netrc,copy-gem
+```
+
+Note that changes you make to your `.netrc` and your gem credentials on the host are *not* automatically updated on your Vagrant boxes. You have to manually re-run the above command to copy the files from your host to the Vagrant box.
+
+To create one of the other variants of this box, use one of the following `vagrant init` commands:
 
 ```bash
 vagrant init jadesystems/rails-jade-16-04-pg
@@ -136,7 +147,7 @@ Obviously you would only use such obvious user names and passwords
 for a local development or test database.
 Use a better password for production systems, or any system accessible from a network.
 
-You can, of course, change the database owner or password. To do so:
+You can change the database owner or password. To do so:
 
 * Create a role in Postgres with database superuser privileges, using the "create role" command
 
@@ -463,13 +474,19 @@ The command line arguments cause the script to build only the client database to
 
 The complete list of options for the build script are:
 
--c            Client-only database (typically for production-like servers).
--d DATABASE   Specify database. Default "pg". Can be "mssql" or "pg".
--h            Help.
--n            Install Nginx and Certbot.
--o OS_VERSION Ubuntu major and minor version. Default: the installed version.
--s            Install for a server (no need to minimize size like for an appliance).
--t TARGET     Deploy to a target type. Default "vagrant". "-t server" for server builds.
+* -c            Client-only database (typically for production-like servers).
+* -d DATABASE   Specify database. Default "pg". Can be "mssql" or "pg".
+* -h            Help.
+* -n            Install Nginx and Certbot.
+* -o OS_VERSION Ubuntu major and minor version. Default: the installed version.
+* -s            Install for a server (no need to minimize size like for an appliance).
+* -t TARGET     Deploy to a target type. Default "vagrant". "-t server" for server builds.
+
+If you want an image that looks like production, but still has a local database server, type:
+
+```bash
+./build.sh -ns -t server
+```
 
 ## Customization
 

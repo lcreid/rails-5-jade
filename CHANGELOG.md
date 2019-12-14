@@ -12,6 +12,17 @@
 
 * Your contribution here!
 
+## [6.2.0][2019-12-14]
+
+### New features
+
+* [#41] Use newer version of Nodejs from PPA for 18.04
+* Rails 6.0.2 for the Ubuntu 18.04 boxes.
+
+### Bugfixes
+
+* [#38] Revert the changes from #30 so boxes run on MacOS and Windows hosts
+
 ## [6.1.1][2019-11-24]
 
 ### Bugfixes
