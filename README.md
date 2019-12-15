@@ -81,7 +81,7 @@ vagrant init jadesystems/rails-jade-18-04-pg.box
 vagrant up
 vagrant ssh
 cd /vagrant
-rails new . --database=postgresql --skip-coffee
+rails new . --database=postgresql --skip-coffee --skip-listen
 echo ".vagrant" >>.gitignore
 ```
 
