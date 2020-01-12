@@ -283,7 +283,6 @@ if [[ $nginx = 1 ]]; then
   # End set-up for TLS
 fi
 
-# Chrome
 # A bit of a misnomer to say it's for a non-client deploy. Need to name
 # some of the parameters better.
 if [[ $client = 0 ]]; then
@@ -295,7 +294,8 @@ if [[ $client = 0 ]]; then
   sudo apt-get -y -q install google-chrome-stable
 
   # Need the following if you're going to build webkit for Capybara
-  sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb
+  # TODO: Figure out how to support webkit, or confirm that we're going to drop it
+  [[ $os_version != "20.04" ]] && sudo apt-get install -y -q libqtwebkit-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x xvfb
 fi
 
 # Bundler version must match the version on the target production box.

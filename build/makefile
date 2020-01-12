@@ -2,10 +2,11 @@
 # in Packer, the wisdom was to have a 30 s sleep after the image was built,
 # but before running the provisioners.
 
-BOXES = rails-jade-16-04-mssql \
+BOXES = rails-jade-20-04-pg \
+	rails-jade-18-04-pg \
 	rails-jade-18-04-mssql \
 	rails-jade-16-04-pg \
-	rails-jade-18-04-pg
+	rails-jade-16-04-mssql
 
 all-vagrant-dev-boxes: $(BOXES)
 
@@ -21,7 +22,14 @@ rails-jade-16-04-pg.box: template.json build.sh variables-16-04-pg.json Vagrantf
 rails-jade-18-04-pg.box: template.json build.sh Vagrantfile.18.04.pg
 	packer build -force template.json
 
-vagrantfiles: Vagrantfile.18.04.pg Vagrantfile.16.04.pg Vagrantfile.18.04.mssql Vagrantfile.16.04.mssql
+rails-jade-20-04-pg.box: template.json build.sh variables-20-04-pg.json Vagrantfile.20.04.pg
+	packer build -force -var-file variables-20-04-pg.json template.json
+
+vagrantfiles: Vagrantfile.20.04.pg \
+	Vagrantfile.18.04.pg \
+	Vagrantfile.16.04.pg \
+	Vagrantfile.18.04.mssql \
+	Vagrantfile.16.04.mssql
 
 Vagrantfile.16.04.mssql: Vagrantfile.template Vagrantfile.header
 	cat Vagrantfile.header Vagrantfile.template | \
@@ -37,11 +45,14 @@ Vagrantfile.16.04.pg: Vagrantfile.template Vagrantfile.header
 Vagrantfile.18.04.pg: Vagrantfile.template Vagrantfile.header
 	cat Vagrantfile.header Vagrantfile.template >$@
 
+Vagrantfile.20.04.pg: Vagrantfile.template Vagrantfile.header
+	cat Vagrantfile.header Vagrantfile.template >$@
+
 .PHONY: install
 install: $(BOXES)
 
 clean:
 	rm Vagrantfile.[0-9][0-9].[0-9][0-9].* *.box
-	
+
 %: %.box
 	vagrant box add $? --force --name $@
