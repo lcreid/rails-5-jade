@@ -1,6 +1,6 @@
 {
-  "iso_checksum": "4901eeba3ffaa56b9356bb496d161ade5bd1e2df579552aa6c40f33984a34614",
-  "iso_url": "http://cdimage.ubuntu.com/ubuntu-server/daily/current/focal-server-amd64.iso",
+  "iso_checksum": "529d646cb6835fe7befb1ed7bc52523615ff8a52ecf38f8db381328409de7f0b",
+  "iso_url": "http://cdimage.ubuntu.com/ubuntu-server/daily-live/current/focal-live-server-amd64.iso",
   "output": "rails-jade-20-04-pg.box",
   "vagrantfile": "Vagrantfile.20.04.pg"
 }
