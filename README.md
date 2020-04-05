@@ -53,17 +53,6 @@ You can arrange to forward the requests for ssh credentials to your host machine
 vagrant ssh -- -A
 ```
 
-The above works on a Linux host for sure. It may or may not work on Windows or MacOS, depending on your host's configuration of SSH.
-
-In addition, on Linux, you can copy your `.netrc` and your gem credentials to the box, so you can upload a gem from within the box.
-One time only, bring up the box with:
-
-```bash
-vagrant up --provision-with copy-netrc,copy-gem
-```
-
-Note that changes you make to your `.netrc` and your gem credentials on the host are *not* automatically updated on your Vagrant boxes. You have to manually re-run the above command to copy the files from your host to the Vagrant box.
-
 To create one of the other variants of this box, use one of the following `vagrant init` commands:
 
 ```bash
