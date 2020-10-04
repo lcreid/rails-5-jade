@@ -1,5 +1,14 @@
 # rails-5-jade
 
+*I am no longer building Vagrant boxes for Rails development.*
+It has become too painful to redo the Packer scripts for every new LTS version of Ubuntu server.
+The world has moved to Docker, and I'm moving too.
+Feel free to fork this project.
+I'd be happy to help you with advice if you want to fork this project.
+
+Sometime after January, 2021, I will archive this project.
+For now, I'm leaving it open so you can ask questions by creating issues.
+
 A Vagrant box with Rails, Jekyll, and Node on Ubuntu (16.04 or 18.04).
 
 This version contains a significant change in implementation of the Vagrant box. It now builds:
